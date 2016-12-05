@@ -62,13 +62,13 @@ public class Audio2D : MonoBehaviour {
     }
 
     public void PlaySound(string n) {
-        //for (int i = 0; i < sounds.Length; i++) {
-        //    if (sounds[i].name == n) {
-        //        sounds[i].Play();
-        //        return;
-        //    }
-        //}
-        //print("ERROR PlaySound(): No sound with name: " + n);
+        for (int i = 0; i < sounds.Length; i++) {
+            if (sounds[i].name == n) {
+                sounds[i].Play();
+                return;
+            }
+        }
+        print("ERROR PlaySound(): No sound with name: " + n);
     }
 
     public void StopSound(string n) {
@@ -78,6 +78,6 @@ public class Audio2D : MonoBehaviour {
                 return;
             }
         }
-        //print("ERROR PauseSound(): No sound with name: " + n);
+        print("ERROR PauseSound(): No sound with name: " + n);
     }
 }

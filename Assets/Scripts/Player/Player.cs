@@ -21,7 +21,6 @@ public class Player : NetworkBehaviour {
     public float jumpDeceleration = 0.5f;
     public float maxFallSpeed = -110f;
 
-    private Gun gun;
     private Pistol pistol;
     private Shotgun shotgun;
     private PlasmaCannon plasmaCannon;
@@ -32,7 +31,7 @@ public class Player : NetworkBehaviour {
     private bool cannonFinished = true;
     private bool shootReleased = true;
     [SyncVar(hook = "ChangeWeapon")]
-    private int gunNum = 1;
+    public int gunNum = 1;
     //  1  Pistol
     //  2  Shotgun
     //  3  PlasmaCannon
@@ -115,7 +114,6 @@ public class Player : NetworkBehaviour {
         pistol = GetComponent<Pistol>();
         shotgun = GetComponent<Shotgun>();
         plasmaCannon = GetComponent<PlasmaCannon>();
-        gun = (Gun)pistol;
 
         dropShotgun = Resources.Load("DropShotgun") as GameObject;
         dropCannon = Resources.Load("DropCannon") as GameObject;

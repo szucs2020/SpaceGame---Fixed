@@ -73,7 +73,7 @@ public class Shotgun : Gun {
             Quaternion rotation = getSpawn().transform.rotation;
 
             if (player.isFacingRight()){
-                rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z * -1);
+                rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z);
                 direction = rotation * Vector2.right;
             } else {
                 rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z * -1);

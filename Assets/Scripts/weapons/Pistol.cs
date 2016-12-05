@@ -23,10 +23,15 @@ public class Pistol : Gun{
 
     [Command]
     public void CmdShoot(Vector2 direction, Vector2 position){
-        GameObject laser;
-        laser = (GameObject)Instantiate(laserDot, position, Quaternion.identity);
-        laser.GetComponent<LaserDot>().bulletOwner = GetComponent<Player>();
+
+        GameObject laser = (GameObject)Instantiate(laserDot, position, Quaternion.identity);
+        LaserDot dot = laser.GetComponent<LaserDot>();
+        Player p = GetComponent<Player>();
+
         laser.GetComponent<Rigidbody2D>().velocity = bulletSpeed * direction;
+        dot.bulletOwner = p;
+        dot.gunType = p.gunNum;
+
         NetworkServer.Spawn(laser.gameObject);
     }
 

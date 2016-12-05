@@ -40,6 +40,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ac36017cf67924eaf16fe4bd9e4f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sounds:
+  - name: Jump
+    clip: {fileID: 8300000, guid: 5909beb3ed816884ea4ff4f6cbce49be, type: 3}
+    volume: 0.7
+    pitch: 1
+  - name: Boost
+    clip: {fileID: 8300000, guid: 39ad43ce5a556824387c110915ef7080, type: 3}
+    volume: 0.6
+    pitch: 1
+  - name: Die
+    clip: {fileID: 8300000, guid: 31106e961d8904e41af81f52c6496d98, type: 3}
+    volume: 0.7
+    pitch: 1
+  - name: Pistol
+    clip: {fileID: 8300000, guid: 2315a82784f177f4ca77501f043b40b9, type: 3}
+    volume: 0.7
+    pitch: 1
+  - name: Shotgun
+    clip: {fileID: 8300000, guid: 2315a82784f177f4ca77501f043b40b9, type: 3}
+    volume: 0.7
+    pitch: 1
+  - name: Plasma
+    clip: {fileID: 8300000, guid: 159304c6ad82449439639099021bb435, type: 3}
+    volume: 0.4
+    pitch: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
