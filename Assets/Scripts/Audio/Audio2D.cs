@@ -5,6 +5,7 @@
  */
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class Sound {
@@ -36,7 +37,7 @@ public class Sound {
 
 }
 
-public class Audio2D : MonoBehaviour {
+public class Audio2D : NetworkBehaviour {
 
     [SerializeField]
     Sound[] sounds;
@@ -68,7 +69,16 @@ public class Audio2D : MonoBehaviour {
                 return;
             }
         }
-        print("ERROR PlaySound(): No sound with name: " + n);
+        print("ERROR PlaySound(string): No sound with name: " + n);
+    }
+
+    public void PlaySound(int index) {
+
+        if (index < sounds.Length && index >= 0) {
+            sounds[index].Play();
+            return;
+        }
+        print("ERROR PlaySound(int): No sound with index: " + index);
     }
 
     public void StopSound(string n) {
@@ -79,5 +89,23 @@ public class Audio2D : MonoBehaviour {
             }
         }
         print("ERROR PauseSound(): No sound with name: " + n);
+    }
+
+    public void StopSound(int index) {
+        if (index < sounds.Length && index >= 0) {
+            sounds[index].Stop();
+            return;
+        }
+        print("ERROR PlaySound(int): No sound with index: " + index);
+    }
+
+    public int GetSoundIndex(string n) {
+        for (int i = 0; i < sounds.Length; i++) {
+            if (sounds[i].name == n) {
+                return i;
+            }
+        }
+        print("ERROR GetSoundIndex(): No sound with name: " + n);
+        return -1;
     }
 }

@@ -88,7 +88,7 @@ public class Shotgun : Gun {
             shots++;
 			shot = true;
 
-			audio.PlaySound("Shotgun");
+            player.CmdPlaySound("Shotgun");
         }
 
         if (shots == clipSize)

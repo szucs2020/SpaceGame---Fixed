@@ -61,8 +61,8 @@ public class Pistol : Gun{
             nextShot = Time.time + timeBetweenShots;
 			shot = true;
 
-			audio.PlaySound("Pistol");
-		}
+            player.CmdPlaySound("Pistol");
+        }
 		return shot;
     }
 }

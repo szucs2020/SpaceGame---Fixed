@@ -98,10 +98,9 @@ public class Player : NetworkBehaviour {
 
         syncFlip = GetComponent<SyncFlip>();
         syncFlip.player = this;
-
         StartCoroutine("nameFix");
-
         animator = GetComponent<AnimationManager>();
+        audio2D = Audio2D.singleton;
 
         if (!isLocalPlayer && !isAI) {
             return;
@@ -135,8 +134,6 @@ public class Player : NetworkBehaviour {
 
         currentPlatform = null;
         currentPosition = 2;
-
-        audio2D = Audio2D.singleton;
     }
 
     void Update() {
@@ -211,13 +208,13 @@ public class Player : NetworkBehaviour {
                 velocity.y = maxJumpVelocity;
                 decelerating = false;
                 if (jump == 1) {
-                    audio2D.PlaySound("Boost");
+                    CmdPlaySound("Boost");
                 }
             }
 
             if (jump == 0) {
                 jump = 1;
-                audio2D.PlaySound("Jump");
+                CmdPlaySound("Jump");
             } else if (jump == 1) {
                 jump = 2;
             }
@@ -273,7 +270,7 @@ public class Player : NetworkBehaviour {
             charged = false;
             charging = false;
             if (cannonFinished) {
-                audio2D.StopSound("Plasma");
+                CmdStopSound("Plasma");
             }
 
             StopCoroutine("chargeCannon");
@@ -282,7 +279,7 @@ public class Player : NetworkBehaviour {
             StartCoroutine("chargeCannon");
             if (!charging) {
                 charging = true;
-                audio2D.PlaySound("Plasma");
+                CmdPlaySound("Plasma");
             }
 
             if (charged && shootReleased) {
@@ -456,6 +453,27 @@ public class Player : NetworkBehaviour {
         //if (col.tag == "Pickup") {
         //    byPickup = false;
         //}
+    }
+
+    //audio RPCs/Commands
+    [Command]
+    public void CmdPlaySound(string name) {
+        RpcPlaySound(audio2D.GetSoundIndex(name));
+    }
+
+    [ClientRpc]
+    void RpcPlaySound(int name) {
+        audio2D.PlaySound(name);
+    }
+
+    [Command]
+    public void CmdStopSound(string name) {
+        RpcStopSound(audio2D.GetSoundIndex(name));
+    }
+
+    [ClientRpc]
+    void RpcStopSound(int name) {
+        audio2D.StopSound(name);
     }
 
     [Command]
