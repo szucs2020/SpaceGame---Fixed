@@ -212,7 +212,7 @@ public class Lobby : NetworkBehaviour {
         } else if (value == 3) {
             settings.NumberOfAIPlayers = 1;
             AIText.text = "1";
-        } else if (value == 6) {
+        } else if (value == 7) {
             settings.NumberOfAIPlayers = 2;
             AIText.text = "2";
         } else if (value == 10) {
