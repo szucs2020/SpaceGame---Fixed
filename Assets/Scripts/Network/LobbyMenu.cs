@@ -45,14 +45,37 @@ public class LobbyMenu : MonoBehaviour {
     }
 
     public void onClickHost() {
-        lobbyManager.HostGame();
-        this.gameObject.SetActive(false);
-        lobby.SetActive(true);
+        GameObject panel = GameObject.Find("Menu").gameObject;
+        InputField name = panel.transform.Find("PlayerName").GetComponent<InputField>();
+        Text error = panel.transform.Find("Error").GetComponent<Text>();
+
+        if (name.text == "") {
+            error.text = "PLEASE ENTER A NAME.";
+        } else {
+            error.text = "";
+
+            lobbyManager.HostGame();
+            this.gameObject.SetActive(false);
+            lobby.SetActive(true);
+        }
     }
 
     public void onClickJoin() {
-        lobbyManager.JoinGame(ipAddress.text);
-        this.gameObject.SetActive(false);
-        load.SetActive(true);
+        GameObject panel = GameObject.Find("Menu").gameObject;
+        InputField name = panel.transform.Find("PlayerName").GetComponent<InputField>();
+        InputField ip = panel.transform.Find("IPAddress").GetComponent<InputField>();
+        Text error = panel.transform.Find("Error").GetComponent<Text>();
+
+        if (name.text == "") {
+            error.text = "PLEASE ENTER A NAME.";
+        } else if (ip.text == "") {
+            error.text = "PLEASE ENTER AN IP ADDRESS.";
+        } else {
+            error.text = "";
+
+            lobbyManager.JoinGame(ipAddress.text);
+            this.gameObject.SetActive(false);
+            load.SetActive(true);
+        }
     }
 }
