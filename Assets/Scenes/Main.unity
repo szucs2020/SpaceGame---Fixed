@@ -1159,7 +1159,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 464634, guid: 4d27f2841cc9a2745b62701631303a62, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 464634, guid: 4d27f2841cc9a2745b62701631303a62, type: 2}
       propertyPath: m_LocalScale.x
@@ -1850,6 +1850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ac36017cf67924eaf16fe4bd9e4f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sounds: []
 --- !u!4 &1483075825
 Transform:
   m_ObjectHideFlags: 0
@@ -2794,6 +2795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Node: {fileID: 131736, guid: 3fefe1607324a824d84df0954c2c6b67, type: 2}
   ObjectList: []
+  NodesList: []
 --- !u!4 &2088671376
 Transform:
   m_ObjectHideFlags: 0
