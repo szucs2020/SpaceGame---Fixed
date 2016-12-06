@@ -94,7 +94,7 @@ public class Player : NetworkBehaviour {
     public Transform currentPlatform;
     private bool isAI = false;
 
-    private Audio2D audio2D;
+    public Audio2D audio2D;
     private Chat chat;
 
     void Awake() {
@@ -336,18 +336,18 @@ public class Player : NetworkBehaviour {
             }
         }
 
-        if (chat.chatInput != null)
-        {
-            string message = chat.chatInput.text;
+        //if (chat.chatInput != null)
+        //{
+        //    string message = chat.chatInput.text;
 
 
-            if (!string.IsNullOrEmpty(message.Trim()) && Input.GetKeyDown("return"))
-            {
-                message = playerName + ": " + message + "\n";
-                CmdPrintMessage(message);
-                chat.chatInput.text = "";
-            }
-        }
+        //    if (!string.IsNullOrEmpty(message.Trim()) && Input.GetKeyDown("return"))
+        //    {
+        //        message = playerName + ": " + message + "\n";
+        //        CmdPrintMessage(message);
+        //        chat.chatInput.text = "";
+        //    }
+        //}
 
     }
 
