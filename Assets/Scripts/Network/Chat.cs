@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+ * Chat.cs
+ * Authors: Lorant
+ * Description: This script allows player messaging over the network
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -6,50 +11,28 @@ using UnityEngine.UI;
 
 public class Chat : NetworkBehaviour
 {
-    private Text chatText;
-    private InputField chatInput;
-    private Player player;
+    public Text chatText;
+    public InputField chatInput;
 
-    // Use this for initialization
-    void Start()
-    {
-        chatText = GameObject.Find("ChatText").GetComponent<Text>();
-        chatInput = GameObject.Find("ChatInput").GetComponent<InputField>();
-        player = transform.GetComponent<Player>();
-    }
+    public static Chat singleton = null;
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        string tempMessage = chatInput.text;
-        if (!string.IsNullOrEmpty(tempMessage.Trim()) && Input.GetKeyDown("return"))
+        if (singleton != null && singleton != this)
         {
-            print("update");
-            //PrintMessage(player.playerName + ": " + tempMessage + "\n");
-            PrintMessage(player.playerName + ": " + tempMessage + "\n");
-            chatInput.text = "";
+            Destroy(this.gameObject);
+            return;
         }
+        else
+        {
+            singleton = this;
+        }
+        DontDestroyOnLoad(this);
     }
 
-    void PrintMessage(string message)
+    public void PrintMessage(string message)
     {
-        print("Printmessage");
         chatText.text += message;
-        CmdPrintMessage(message);
     }
 
-    [Command]
-    void CmdPrintMessage(string message)
-    {
-        print("CmdPrintmessage");
-        chatText.text += message;
-        RpcPrintMessage(message);        
-    }
-
-    [ClientRpc]
-    void RpcPrintMessage(string message)
-    {
-        print("RPC");
-        chatText.text += message;
-    }
 }
