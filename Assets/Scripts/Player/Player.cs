@@ -37,7 +37,7 @@ public class Player : NetworkBehaviour {
     //  3  PlasmaCannon
 
     Pickup pickup;
-    private bool byPickup = false;
+    private bool nearPickup = false;
     private bool pickedUp = false;
     private GameObject dropShotgun;
     private GameObject dropCannon;
@@ -312,32 +312,18 @@ public class Player : NetworkBehaviour {
             }
         }
 
-        if (buttonPressedAction) {
+        if (buttonPressedAction)
+        {
+            CmdDropWeapon(gunNum);
 
-
-            //GameObject droppedGun;
-
-            //if (gunNum == 2) {
-            //    droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
-            //    NetworkServer.Spawn(droppedGun);
-            //    Destroy(droppedGun, 3f);
-            //    Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
-            //    rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
-            //    rb.AddTorque(-500f);
-            //} else if (gunNum == 3) {
-            //    droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
-            //    NetworkServer.Spawn(droppedGun);
-            //    Destroy(droppedGun, 3f);
-            //    Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
-            //    rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
-            //    rb.AddTorque(-500f);
-            //}
-
-            if (byPickup) {
+            if (nearPickup)
+            {
                 CmdChangeWeapon(pickup.id);
                 pickup.destroy();
-                byPickup = false;
-            } else if (!byPickup) {
+                nearPickup = false;
+            }
+            else if (!nearPickup)
+            {
                 CmdChangeWeapon(1);
             }
         }
@@ -442,17 +428,19 @@ public class Player : NetworkBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D col) {
-        //if (col.tag == "Pickup") {
-        //    byPickup = true;
-        //    pickup = col.gameObject.GetComponent<Pickup>();
-        //}
+        if (col.tag == "Pickup")
+        {
+            nearPickup = true;
+            pickup = col.gameObject.GetComponent<Pickup>();
+        }
 
     }
 
     void OnTriggerExit2D(Collider2D col) {
-        //if (col.tag == "Pickup") {
-        //    byPickup = false;
-        //}
+        if (col.tag == "Pickup")
+        {
+            nearPickup = false;
+        }
     }
 
     //audio RPCs/Commands
@@ -487,6 +475,32 @@ public class Player : NetworkBehaviour {
         } else if (weaponNum == 3) {
             animator.setCannon();
         }
+    }
+
+    [Command]
+    private void CmdDropWeapon(int weaponNum)
+    {
+        GameObject droppedGun = null;
+
+        if (weaponNum == 1)
+        {
+            return;
+        }
+        else if (weaponNum == 2)
+        {
+            droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
+        }
+        else if (weaponNum == 3)
+        {
+            droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
+        }
+
+        Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
+        //rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
+        rb.velocity = Vector2.up * 12;
+        rb.AddTorque(-500f);
+        NetworkServer.Spawn(droppedGun);
+        Destroy(droppedGun, 3f);
     }
 
     void ChangeWeapon(int weaponNum) {

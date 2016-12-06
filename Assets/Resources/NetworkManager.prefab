@@ -62,6 +62,8 @@ MonoBehaviour:
   - {fileID: 144326, guid: 5f886684d99282b4bb53ccac2143df7e, type: 2}
   - {fileID: 127766, guid: 566db4cf5581b9947babdc09cc72c572, type: 2}
   - {fileID: 169232, guid: 651b46bddbbbd354083d99e1b5b51689, type: 2}
+  - {fileID: 118106, guid: 280021c30c512e246bcc9e65c1047716, type: 2}
+  - {fileID: 188034, guid: 54aa6c5dcdc9d4f45b21b4f87120d462, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -113,9 +115,6 @@ MonoBehaviour:
   m_PlayScene: Main
   lobbySlots: []
   timeout: 5
-  menu: {fileID: 0}
-  load: {fileID: 0}
-  lobby: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
