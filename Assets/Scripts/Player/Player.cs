@@ -92,7 +92,7 @@ public class Player : NetworkBehaviour {
     public Transform currentPlatform;
     private bool isAI = false;
 
-    private Audio2D audio2D;
+    public Audio2D audio2D;
 
     void Awake() {
         audio2D = Audio2D.singleton;
@@ -322,6 +322,7 @@ public class Player : NetworkBehaviour {
 
             if (nearPickup)
             {
+                audio2D.PlaySound("Reload");
                 CmdChangeWeapon(pickup.id);
                 pickup.destroy();
                 nearPickup = false;

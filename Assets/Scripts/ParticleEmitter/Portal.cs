@@ -63,6 +63,9 @@ public class Portal : MonoBehaviour {
             {
                 if (LayerMask.LayerToName(col.gameObject.layer) != "Ground")
                 {
+                    if (col.gameObject.GetComponent<Player>() != null) {
+                        col.gameObject.GetComponent<Player>().CmdPlaySound("Portal");
+                    }
                     deltaD = col.gameObject.transform.position - gameObject.transform.GetChild(0).transform.position;
                     col.gameObject.transform.position = target.transform.position + deltaD;
                     targetScript.Wait();

@@ -14,7 +14,7 @@ public class Pistol : Gun{
 	private Audio2D audio = Audio2D.singleton;
 
     void Start(){
-        rpm = 450;
+        rpm = 400;
         bulletSpeed = 45;
         init();
         laserDot = Resources.Load("LaserDot") as GameObject;

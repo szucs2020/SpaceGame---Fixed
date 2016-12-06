@@ -22,10 +22,7 @@ public class LobbyMenu : MonoBehaviour {
         g.name = "NetworkManager";
         lobbyManager = ((GameObject)g).GetComponent<CustomNetworkLobby>();
 
-        if (GameObject.Find("Audio") == null) {
-            Object audio = Instantiate(Resources.Load("Audio/Audio"), new Vector3(0, 0, 0), Quaternion.identity);
-            audio.name = "Audio";
-        }
+        Audio2D.singleton.PlaySound("MenuMusic");
 
         StartCoroutine("InitSelect");
     }

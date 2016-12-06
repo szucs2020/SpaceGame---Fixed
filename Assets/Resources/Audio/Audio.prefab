@@ -45,26 +45,52 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5909beb3ed816884ea4ff4f6cbce49be, type: 3}
     volume: 0.7
     pitch: 1
+    loop: 0
   - name: Boost
     clip: {fileID: 8300000, guid: 39ad43ce5a556824387c110915ef7080, type: 3}
     volume: 0.6
     pitch: 1
+    loop: 0
   - name: Die
     clip: {fileID: 8300000, guid: 31106e961d8904e41af81f52c6496d98, type: 3}
     volume: 0.7
     pitch: 1
+    loop: 0
   - name: Pistol
     clip: {fileID: 8300000, guid: 2315a82784f177f4ca77501f043b40b9, type: 3}
     volume: 0.7
     pitch: 1
+    loop: 0
   - name: Shotgun
-    clip: {fileID: 8300000, guid: 2315a82784f177f4ca77501f043b40b9, type: 3}
-    volume: 0.7
+    clip: {fileID: 8300000, guid: c214548f97736ab45be486652057c4dc, type: 3}
+    volume: 0.55
     pitch: 1
+    loop: 0
   - name: Plasma
     clip: {fileID: 8300000, guid: 159304c6ad82449439639099021bb435, type: 3}
+    volume: 0.45
+    pitch: 1
+    loop: 0
+  - name: MenuMusic
+    clip: {fileID: 8300000, guid: 1455d20fbfb1e4b42afedbc6c1f6a02f, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+  - name: GameMusic
+    clip: {fileID: 8300000, guid: cc2ce6063dedc904297879637946ad60, type: 3}
     volume: 0.4
     pitch: 1
+    loop: 1
+  - name: Portal
+    clip: {fileID: 8300000, guid: 2290f11b366889a4d8c48edb89a70058, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+  - name: Reload
+    clip: {fileID: 8300000, guid: 0ac4f1140d063aa4a951e9ece000be25, type: 3}
+    volume: 0.6
+    pitch: 1
+    loop: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

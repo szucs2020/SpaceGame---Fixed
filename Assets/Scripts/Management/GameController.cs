@@ -33,6 +33,7 @@ public class GameController : NetworkBehaviour {
 
     private void GameStarted(int s) {
         if (s == 1) {
+
             if (settings.gameType == GameSettings.GameType.Survival) {
                 playerLives = new int[numberOfPlayers];
                 for (int i = 0; i < playerLives.Length; i++) {
