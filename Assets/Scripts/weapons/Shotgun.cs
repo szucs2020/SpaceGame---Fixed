@@ -48,6 +48,7 @@ public class Shotgun : Gun {
                 lasers[i].GetComponent<Rigidbody2D>().velocity = bulletSpeed * (Quaternion.AngleAxis(i * -1.5f, Vector3.back) * direction);
             }
             lasers[i].GetComponent<LaserDot>().bulletOwner = GetComponent<Player>();
+            lasers[i].GetComponent<LaserDot>().gunType = GetComponent<Player>().gunNum;
             NetworkServer.Spawn(lasers[i].gameObject);
         }
     }

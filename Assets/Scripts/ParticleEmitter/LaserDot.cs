@@ -49,13 +49,12 @@ public class LaserDot : Particle {
             Instantiate(Resources.Load("Spark"), transform.position, Quaternion.identity);
         } else if (LayerMask.LayerToName(col.gameObject.layer) == "Player") {
             if (hurtSelf == true || (bulletOwner != null && col.gameObject.GetComponent<Player>().netId != bulletOwner.netId)) {
-
+                
                 if (gunType == 1) {
                     col.gameObject.GetComponent<Health>().Damage(5.0f);
                 } else if (gunType == 2) {
                     col.gameObject.GetComponent<Health>().Damage(3.0f);
                 }
-
                 
                 Instantiate(Resources.Load("Spark"), transform.position, Quaternion.identity);
                 Destroy(gameObject);

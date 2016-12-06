@@ -102,12 +102,12 @@ public class Player : NetworkBehaviour {
         animator = GetComponent<AnimationManager>();
         audio2D = Audio2D.singleton;
 
+        CameraExpander cam = GameObject.Find("Main Camera").GetComponent<CameraExpander>();
+        cam.UpdatePlayers();
+
         if (!isLocalPlayer && !isAI) {
             return;
         }
-
-        networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManager>();
-
         controller = GetComponent<Controller2D>();
 
         pistol = GetComponent<Pistol>();

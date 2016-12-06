@@ -50,7 +50,6 @@ public class Health : NetworkBehaviour {
 
         //player death
         if (this.health <= 0) {
-            print("call die");
             Die();
         }
 
@@ -77,13 +76,8 @@ public class Health : NetworkBehaviour {
         string pname = p.playerName;
         int pslot = p.playerSlot;
 
-        print("Health Die");
-        print("Is AI: " + p.getIsAI());
-
         bool isAI = p.getIsAI();
         Destroy(p.gameObject);
-
-        //p.Die();
 
         if (isAI) {
             GameObject.Find("GameSettings").GetComponent<GameController>().AttemptSpawnAI(pslot, pname);

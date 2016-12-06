@@ -16,8 +16,11 @@ public class CameraExpander : MonoBehaviour {
 
     private GameObject[] players;
     private Camera mainCamera;
+    private GameSettings settings;
 
     void Start() {
+
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 
         //get current ratio and get the amount needed to scale by to reach the target aspect ratio
         float gameAspect = 16.0f / 9.0f;
@@ -46,6 +49,10 @@ public class CameraExpander : MonoBehaviour {
         }
     }
 
+    public void UpdatePlayers() {
+        players = GameObject.FindGameObjectsWithTag("player");
+    }
+
     private void LateUpdate(){
 
         float centreX = 0.0f;
@@ -56,9 +63,22 @@ public class CameraExpander : MonoBehaviour {
         float highestY = float.MinValue;
         float camTarget;
 
-        players = GameObject.FindGameObjectsWithTag("player");
-
         if (players != null && players.Length > 0) {
+
+            //make sure no players are null
+            bool exit = true;
+            while (exit) {
+                exit = false;
+                for (int i = 0; i < players.Length; i++) {
+                    if (players[i] == null) {
+                        UpdatePlayers();
+                        exit = true;
+                        break;
+                    }
+                }
+            }
+
+            //use player positions to move camera
             for (int i = 0; i < players.Length; i++) {
 
                 //get centre point on screen
@@ -94,9 +114,11 @@ public class CameraExpander : MonoBehaviour {
                 camTarget = minCameraSize;
             }
 
-            //update camera size and position
-            mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, camTarget, zoomSpeed * Time.deltaTime);
-            transform.position = Vector3.Lerp(transform.position, new Vector3(centreX, centreY, -10), moveSpeed * Time.deltaTime);
+            if (players.Length > 0) {
+                //update camera size and position
+                mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, camTarget, zoomSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, new Vector3(centreX, centreY, -10), moveSpeed * Time.deltaTime);
+            }
         }
     }
 }

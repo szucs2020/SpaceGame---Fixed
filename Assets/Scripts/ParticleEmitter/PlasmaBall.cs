@@ -80,8 +80,7 @@ public class PlasmaBall : MonoBehaviour {
         }
         else if (LayerMask.LayerToName(col.gameObject.layer) == "Player")
         {
-            if (col.gameObject.GetComponent<Player>().netId != bulletOwner.netId || hurtSelf == true)
-            {
+            if (hurtSelf == true || (bulletOwner != null && col.gameObject.GetComponent<Player>().netId != bulletOwner.netId)) {
                 tAtDestroy = Time.time;
                 varDestroy = true;
                 Destroy(gameObject, destroyTime);
