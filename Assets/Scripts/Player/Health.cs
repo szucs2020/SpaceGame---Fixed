@@ -13,7 +13,7 @@ public class Health : NetworkBehaviour {
     public float maxHealth;
     private Image HealthBar;
     private bool regen = false;
-    public float regenTime = 2f;
+    public float regenTime = 6f;
     private float regenStarTime = 0f;
 
     [SyncVar(hook = "UpdateHealthBar")]
@@ -87,7 +87,7 @@ public class Health : NetworkBehaviour {
     }
 
     private void regenHealth() {
-        health += Time.deltaTime * 40;
+        health += Time.deltaTime * 10;
 
         if (health >= maxHealth)
             regen = false;
