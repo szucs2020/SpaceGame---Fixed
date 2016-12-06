@@ -14,6 +14,15 @@ public class GameController : NetworkBehaviour {
     private GameSettings settings;
     private int[] playerLives;
 
+    [SyncVar]
+    private int numberOfPlayers;
+
+    [SyncVar]
+    private int time;
+
+    [SyncVar(hook = "GameStarted")]
+    private int started = 0;
+
     [SerializeField]
     GameObject AIPrefab;
 
@@ -22,22 +31,42 @@ public class GameController : NetworkBehaviour {
         manager = GameObject.Find("NetworkManager").GetComponent<CustomNetworkLobby>();
     }
 
-    public void StartGame() {
-
-        if (settings.gameType == GameSettings.GameType.Survival) {
-
-            //Setup player lives
-            playerLives = new int[settings.NumberOfAIPlayers + NetworkManager.singleton.numPlayers];
-            for (int i = 0; i < playerLives.Length; i++) {
-                playerLives[i] = settings.numLives;
+    private void GameStarted(int s) {
+        if (s == 1) {
+            if (settings.gameType == GameSettings.GameType.Survival) {
+                playerLives = new int[numberOfPlayers];
+                for (int i = 0; i < playerLives.Length; i++) {
+                    playerLives[i] = settings.numLives;
+                }
+                
+            } else if (settings.gameType == GameSettings.GameType.Time) {
+                GameObject.Find("HUD").transform.Find("Timer").GetComponent<Timer>().setTime(settings.time);
             }
-
-        } else if (settings.gameType == GameSettings.GameType.Time) {
-            GameObject.Find("HUD").transform.Find("Timer").GetComponent<Timer>().setTime(settings.time);
+            SpawnAllAI();
         }
     }
 
+    public void StartGame() {
+        if (isServer) {
+            numberOfPlayers = settings.NumberOfAIPlayers + NetworkManager.singleton.numPlayers;
+            time = settings.time;
+            started = 1;
+        }
+    }
+
+    [Command]
+    private void CmdStartGame() {
+        numberOfPlayers = settings.NumberOfAIPlayers + NetworkManager.singleton.numPlayers;
+        time = settings.time;
+        started = 1;
+    }
+
     public void EndGame() {
+        StartCoroutine("DelayEnd");
+    }
+
+    IEnumerator DelayEnd() {
+        yield return new WaitForSeconds(1.0f);
         manager.CloseConnection();
         Destroy(manager.gameObject);
         Destroy(settings.gameObject);
@@ -52,6 +81,7 @@ public class GameController : NetworkBehaviour {
         if (settings.gameType == GameSettings.GameType.Survival) {
 
             playerLives[playerSlot]--;
+            print("Player: " + playerSlot + " lives left: " + playerLives[playerSlot]);
 
             //check if there is a winner
             end = isGameOver();
@@ -93,7 +123,7 @@ public class GameController : NetworkBehaviour {
         if (!isServer) {
             return;
         }
-        for (int i = NetworkManager.singleton.numPlayers; i < playerLives.Length; i++) {
+        for (int i = NetworkManager.singleton.numPlayers; i < numberOfPlayers; i++) {
             SpawnAI(i, "Michael Wirth");
         }
     }

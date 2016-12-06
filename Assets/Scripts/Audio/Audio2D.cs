@@ -73,7 +73,6 @@ public class Audio2D : NetworkBehaviour {
     }
 
     public void PlaySound(int index) {
-
         if (index < sounds.Length && index >= 0) {
             sounds[index].Play();
             return;

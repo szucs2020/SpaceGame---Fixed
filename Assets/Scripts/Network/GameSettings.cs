@@ -18,11 +18,17 @@ public class GameSettings : NetworkBehaviour {
     }
 
     //settings
+    [SyncVar]
     public GameType gameType;
-    public int numLives;
-    public int time;
-    public int NumberOfAIPlayers;
 
+    [SyncVar]
+    public int numLives;
+
+    [SyncVar]
+    public int time;
+
+    [SyncVar]
+    public int NumberOfAIPlayers;
     private string localPlayerName;
 
     void Start() {
@@ -31,10 +37,12 @@ public class GameSettings : NetworkBehaviour {
         DontDestroyOnLoad(transform.gameObject);
 
         //default values
-        gameType = GameType.Survival;
-        NumberOfAIPlayers = 0;
-        time = 120;
-        numLives = 3;
+        if (isServer) {
+            gameType = GameType.Survival;
+            NumberOfAIPlayers = 0;
+            time = 120;
+            numLives = 3;
+        }
     }
 
     void OnLevelWasLoaded(int level) {
@@ -42,7 +50,6 @@ public class GameSettings : NetworkBehaviour {
         //gameplay scene
         if (level == SceneManager.GetSceneByName("Main").buildIndex) {
             GetComponent<GameController>().StartGame();
-            gameObject.GetComponent<GameController>().SpawnAllAI();
         }
     }
 

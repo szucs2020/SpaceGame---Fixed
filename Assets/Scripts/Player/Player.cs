@@ -94,13 +94,17 @@ public class Player : NetworkBehaviour {
 
     private Audio2D audio2D;
 
+    void Awake() {
+        audio2D = Audio2D.singleton;
+    }
+
     void Start() {
 
         syncFlip = GetComponent<SyncFlip>();
         syncFlip.player = this;
         StartCoroutine("nameFix");
         animator = GetComponent<AnimationManager>();
-        audio2D = Audio2D.singleton;
+        
 
         CameraExpander cam = GameObject.Find("Main Camera").GetComponent<CameraExpander>();
         cam.UpdatePlayers();
@@ -330,6 +334,11 @@ public class Player : NetworkBehaviour {
 
     }
 
+    public void Die() {
+        CmdPlaySound("Die");
+        Destroy(gameObject);
+    }
+
     IEnumerator chargeCannon() {
         yield return new WaitForSeconds(1.4f);
         charged = true;
@@ -348,10 +357,6 @@ public class Player : NetworkBehaviour {
     private void playerNameChanged(string pn) {
         Text Name = transform.FindChild("NameCanvas").FindChild("Name").GetComponent<Text>();
         Name.text = pn;
-    }
-
-    public void Die() {
-        //Destroy(gameObject);
     }
 
     //flip 2D sprite

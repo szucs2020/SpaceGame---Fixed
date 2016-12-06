@@ -58,6 +58,9 @@ public class Health : NetworkBehaviour {
     }
 
     public void Kill() {
+        if (!isServer) {
+            return;
+        }
         Die();
     }
 
@@ -77,13 +80,13 @@ public class Health : NetworkBehaviour {
         int pslot = p.playerSlot;
 
         bool isAI = p.getIsAI();
-        Destroy(p.gameObject);
 
         if (isAI) {
             GameObject.Find("GameSettings").GetComponent<GameController>().AttemptSpawnAI(pslot, pname);
         } else {
             GameObject.Find("GameSettings").GetComponent<GameController>().AttemptSpawnPlayer(this.connectionToClient, this.playerControllerId, pslot, pname);
         }
+        p.Die();
     }
 
     private void regenHealth() {
