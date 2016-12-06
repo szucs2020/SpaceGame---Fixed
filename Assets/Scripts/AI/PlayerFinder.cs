@@ -5,6 +5,15 @@ public class PlayerFinder : MonoBehaviour {
 
 	private GameObject player;
 
+	private AIController controller;
+	private AIAimController aimController;
+
+	void Start() {
+		controller = transform.GetComponent<AIController> ();
+		aimController = transform.GetComponent<AIAimController> ();
+	}
+
+
 	public GameObject getPlayer() {
 		findPlayer ();
 
@@ -13,7 +22,7 @@ public class PlayerFinder : MonoBehaviour {
 
 	public Transform getPlayerTransform() {
 		findPlayer ();
-		
+
 		if (player != null) {
 			return player.transform;
 		}
@@ -21,6 +30,21 @@ public class PlayerFinder : MonoBehaviour {
 
 	}
 
+	public void resetPlayer() {
+		player = null;
+		findPlayer ();
+
+		/*These methods set their player var to null
+		 * I am not explicitly setting theit player var to a value
+		 * because this way the scripts will find that the player is null
+		 * and then set the new player var along with the playerComponent var
+		 */
+		controller.resetPlayer ();
+		aimController.resetPlayer ();
+
+	}
+
+	//if findNewPlayer is True, set the player for all of the classes
 	private void findPlayer() {
 		if (player == null) {
 			GameObject[] players = GameObject.FindGameObjectsWithTag ("player");

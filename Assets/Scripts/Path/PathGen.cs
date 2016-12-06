@@ -12,6 +12,7 @@ public class PathGen : MonoBehaviour {
 
 	public GameObject Node;
 	public List<GameObject> ObjectList;
+	public List<Transform> NodesList;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +21,7 @@ public class PathGen : MonoBehaviour {
 		GameObject instance;
 
 		foreach (Transform child in transform) {
-			
+
 			MeshRenderer renderer = child.GetComponent<MeshRenderer> ();
 			Platform platform = child.GetComponent<Platform> ();
 			platform.nodes = new List<Transform> ();
@@ -29,27 +30,29 @@ public class PathGen : MonoBehaviour {
 			//Generates nodes for each individual platform
 			//for (int i = length; i > 0; i = i - 5) {
 
-				//If the node is too close to the edge of the platform it will not get generated
-				//if(!(length - i < 2) && !(length - i > length - 2)) {
+			//If the node is too close to the edge of the platform it will not get generated
+			//if(!(length - i < 2) && !(length - i > length - 2)) {
 			instance = (GameObject)Instantiate (Node, new Vector3 ((int)child.position.x + 10 - length / 2, (int)child.position.y + 3, 0), Quaternion.identity);
 			instance.transform.SetParent (child, true);
 			platform.nodes.Add (instance.transform);
 			ObjectList.Add(instance);
+			NodesList.Add (instance.transform);
 
 			instance = (GameObject)Instantiate (Node, new Vector3 ((int)child.position.x - 10 + length / 2, (int)child.position.y + 3, 0), Quaternion.identity);
 			instance.transform.SetParent (child, true);
 			platform.nodes.Add (instance.transform);
 			ObjectList.Add(instance);
-				//}
+			NodesList.Add (instance.transform);
+			//}
 
-				
+
 			//}
 
 
 			//Each node in each platform neighbours the nodes next to it
 			List<Node> objectNode;
 			for (int i = 0; i < platform.nodes.Count; i++) {
-				
+
 				platform.nodes [i].name = platform.name + " " + i.ToString();
 				platform.nodes [i].GetComponent<Node> ().neighbour = new List<Node> ();
 				objectNode = platform.nodes [i].GetComponent<Node> ().neighbour;
