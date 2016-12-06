@@ -42,7 +42,7 @@ public class AIWeaponsController : MonoBehaviour {
 		if (Hit.transform != null && (Hit.transform.tag == "player" || Hit.transform.name == "LaserDot(Clone)")/*Hit.transform == player*/) {
 			if (timePassed > randomTime) {
 				burst = true;
-				numberOfShots = (int)Random.Range (4.5f, 8.5f);
+				numberOfShots = (int)Random.Range (4.5f, 7.5f);
 				randomTime = Random.Range (0.5f, 0.8f);
 				timePassed = 0f;
 			} else {
@@ -53,7 +53,7 @@ public class AIWeaponsController : MonoBehaviour {
 		if (burst == true) {
 			burstTime += Time.deltaTime;
 
-			if (burstTime > 0.25f && shotsFired < numberOfShots) {
+			if (burstTime > 0.3f && shotsFired < numberOfShots) {
 				shotsFired++;
 				burstTime = 0;
 
