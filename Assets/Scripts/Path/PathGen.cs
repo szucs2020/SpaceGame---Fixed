@@ -85,7 +85,7 @@ public class PathGen : MonoBehaviour {
 					instance.GetComponent<Node> ().neighbour.Add (platform.nodes [1].GetComponent<Node> ());
 					platform.nodes [1].GetComponent<Node> ().neighbour.Add (instance.GetComponent<Node> ());
 				} else {
-					Debug.LogError ("A Portal is Missplaced (Not Close Enough to Edge of Platform)");
+					Debug.LogError ("A Portal is Missplaced (Not Close Enough to Edge of Platform); Name: " + portal.name);
 				}
 			}
 		}

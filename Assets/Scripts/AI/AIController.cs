@@ -467,7 +467,7 @@ public class AIController : MonoBehaviour {
 	}
 
 	private void WalkOnPlatform () {
-		if(Mathf.Abs(target.transform.position.x - transform.position.x) < 1f && target.transform.parent == AI.currentPlatform) {
+		if(Mathf.Abs(target.transform.position.x - transform.position.x) < 3f && target.transform.parent == AI.currentPlatform) {
 			if (path.Count == 0) {
 				target = null;
 				hasPath = false;
