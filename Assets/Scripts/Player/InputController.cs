@@ -8,10 +8,12 @@ public class InputController : NetworkBehaviour {
     private Player player;
 	private bool released;
 	private bool usingGamepad;
+    private bool keysEnabled;
 
     void Start () {
+        keysEnabled = true;
 
-		if (!isLocalPlayer) {
+        if (!isLocalPlayer) {
 			return;
 		}
 
@@ -32,11 +34,13 @@ public class InputController : NetworkBehaviour {
 			return;
 		}
 
-        player.setMovementAxis(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
-        player.setbuttonPressedJump(Input.GetButtonDown("Jump"));
-        player.setbuttonHeldJump(Input.GetButton("Jump"));
-        player.setbuttonReleasedJump(Input.GetButtonUp("Jump"));
-
+        if (keysEnabled) {
+            player.setMovementAxis(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
+            player.setbuttonPressedJump(Input.GetButtonDown("Jump"));
+            player.setbuttonHeldJump(Input.GetButton("Jump"));
+            player.setbuttonReleasedJump(Input.GetButtonUp("Jump"));
+        }
+        
         //fix button pressed/held for the xbox controller
         if (usingGamepad){
 
@@ -81,15 +85,33 @@ public class InputController : NetworkBehaviour {
 			}
 		} else {
 
-            player.setbuttonHeldAimLeft(Input.GetButton("AimLeft"));
-            player.setbuttonHeldAimRight(Input.GetButton("AimRight"));
-            player.setbuttonHeldAimUp(Input.GetButton("AimUp"));
-            player.setbuttonHeldAimDown(Input.GetButton("AimDown"));
+            bool returnPressed = Input.GetKeyDown("return");
+            player.setbuttonPressedReturn(returnPressed);
 
-            player.setbuttonPressedShoot(Input.GetButtonDown("ShootButton"));
-            player.setbuttonHeldShoot(Input.GetButton("ShootButton"));
-            player.setbuttonReleasedShoot(Input.GetButtonUp("ShootButton"));
-            player.setbuttonPressedAction(Input.GetButtonDown("Action"));
+            if (returnPressed)
+            {
+                if (keysEnabled)
+                {
+                    keysEnabled = false;
+                }
+                else
+                {
+                    keysEnabled = true;
+                }
+            }
+            if (keysEnabled) {
+                player.setbuttonHeldAimLeft(Input.GetButton("AimLeft"));
+                player.setbuttonHeldAimRight(Input.GetButton("AimRight"));
+                player.setbuttonHeldAimUp(Input.GetButton("AimUp"));
+                player.setbuttonHeldAimDown(Input.GetButton("AimDown"));
+
+                player.setbuttonPressedShoot(Input.GetButtonDown("ShootButton"));
+                player.setbuttonHeldShoot(Input.GetButton("ShootButton"));
+                player.setbuttonReleasedShoot(Input.GetButtonUp("ShootButton"));
+                player.setbuttonPressedAction(Input.GetButtonDown("Action"));
+            }
+
+            
         }
     }
 }

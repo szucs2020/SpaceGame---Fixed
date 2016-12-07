@@ -27,7 +27,6 @@ public class Chat : NetworkBehaviour
         {
             singleton = this;
         }
-        DontDestroyOnLoad(this);
     }
 
     public void PrintMessage(string message)

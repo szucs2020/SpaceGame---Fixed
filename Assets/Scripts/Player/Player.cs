@@ -78,6 +78,8 @@ public class Player : NetworkBehaviour {
     private bool buttonHeldAimUp;
     private bool buttonHeldAimDown;
 
+    private bool buttonPressedReturn;
+
     Controller2D controller;
     NetworkManager networkManager;
 
@@ -138,6 +140,7 @@ public class Player : NetworkBehaviour {
         buttonReleasedShoot = true;
         buttonPressedAction = false;
         buttonPressedReload = false;
+        buttonPressedReturn = false;
 
         currentPlatform = null;
         currentPosition = 2;
@@ -335,16 +338,33 @@ public class Player : NetworkBehaviour {
             }
         }
 
-        if (chat.chatInput != null)
+        if (!chat.chatInput.isFocused && buttonPressedReturn)
         {
-            string message = chat.chatInput.text;
+            chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.transform.GetChild(0).GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.chatInput.Select();
 
-
-            if (!string.IsNullOrEmpty(message.Trim()) && Input.GetKeyDown("return"))
+            if (chat.chatInput != null)
             {
-                message = playerName + ": " + message + "\n";
-                CmdPrintMessage(message);
-                chat.chatInput.text = "";
+                string message = chat.chatInput.text;
+
+                if (!string.IsNullOrEmpty(message.Trim()) && buttonPressedReturn)
+                {
+                    message = playerName + ": " + message + "\n";
+                    CmdPrintMessage(message);
+                    chat.chatInput.text = "";
+
+                }
+            }
+        }
+        else {
+            if (!chat.chatInput.isFocused) {
+                chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.transform.GetChild(0).GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
             }
         }
 
@@ -430,6 +450,10 @@ public class Player : NetworkBehaviour {
     }
     public void setbuttonHeldAimDown(bool input) {
         this.buttonHeldAimDown = input;
+    }
+
+    public void setbuttonPressedReturn(bool input) {
+        this.buttonPressedReturn = input;
     }
 
     //current position
