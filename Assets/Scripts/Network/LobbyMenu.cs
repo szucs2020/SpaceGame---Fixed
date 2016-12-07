@@ -16,14 +16,13 @@ public class LobbyMenu : MonoBehaviour {
     public GameObject lobby;
     public GameObject load;
 
-    private GameSettings settings;
+    public GameSettings settings;
 
     void Awake() {
-        if (GameObject.Find("GameSettings") == null) {
-            Object gs = Instantiate(Resources.Load("GameSettings"), new Vector3(0, 0, 0), Quaternion.identity);
-            gs.name = "GameSettings";
-        }
-        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        Object gs = Instantiate(Resources.Load("GameSettings"), new Vector3(0, 0, 0), Quaternion.identity);
+        gs.name = "GameSettings";
+        GameObject gObjSet = (GameObject)gs;
+        settings = gObjSet.GetComponent<GameSettings>();
     }
 
     void Start() {

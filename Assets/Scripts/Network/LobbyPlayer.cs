@@ -24,12 +24,14 @@ public class LobbyPlayer : NetworkLobbyPlayer {
     void Update() {
         //TEMP?
         //Listen for input to change team or ready up.
-        if (SceneManager.GetActiveScene().name == "Pregame Menu") {
-            if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("LB")) {
-                lob.ChangeTeam(this.slot);
-            }
-            if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("RB")) {
-                lob.onClickReady(this.slot);
+        if (isLocalPlayer) {
+            if (SceneManager.GetActiveScene().name == "Pregame Menu") {
+                if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("LB")) {
+                    lob.ChangeTeam(this.slot);
+                }
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("RB")) {
+                    lob.onClickReady(this.slot);
+                }
             }
         }
     }
@@ -68,7 +70,7 @@ public class LobbyPlayer : NetworkLobbyPlayer {
         lob = GameObject.Find("GameLobby").GetComponent<Lobby>();
         CallUpdateTeam(this.playerTeam);
         if (isLocalPlayer) {
-            settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+            settings = GameSettings.singleton;
             lob.setPlayer(this);
             CmdChangeName(settings.getLocalPlayerName());
         } else {

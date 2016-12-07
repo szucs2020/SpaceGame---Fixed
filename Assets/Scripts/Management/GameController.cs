@@ -56,11 +56,12 @@ public class GameController : NetworkBehaviour {
     }
 
     public void StartGame() {
-        if (isServer) {
-            numberOfPlayers = settings.NumberOfAIPlayers + NetworkManager.singleton.numPlayers;
-            time = settings.time;
-            started = 1;
-        }
+        CmdStartGame();
+        //if (isServer) {
+        //    numberOfPlayers = settings.NumberOfAIPlayers + NetworkManager.singleton.numPlayers;
+        //    time = settings.time;
+        //    started = 1;
+        //}
     }
 
     [Command]
@@ -80,6 +81,8 @@ public class GameController : NetworkBehaviour {
     }
 
     public void AttemptSpawnPlayer(NetworkConnection connectionToClient, short playerControllerID, int playerSlot, string playerName, int killer) {
+
+        Debug.LogError("attempt spawn player - slot:" + playerSlot + " killer: " + killer + " playerpoints length: " + playerPoints.Length);
 
         if (killer == playerSlot || killer == -1) {
             playerPoints[playerSlot]--;
