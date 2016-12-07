@@ -9,6 +9,8 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class Pistol : Gun{
+
+    public static float damage = 5.0f;
 	
     private GameObject laserDot;
 	private Audio2D audio = Audio2D.singleton;
@@ -29,7 +31,8 @@ public class Pistol : Gun{
         Player p = GetComponent<Player>();
 
         laser.GetComponent<Rigidbody2D>().velocity = bulletSpeed * direction;
-        dot.bulletOwner = p;
+        dot.bulletOwnerSlot = p.playerSlot;
+        dot.bulletOwnerInstance = p.netId;
         dot.gunType = p.gunNum;
 
         NetworkServer.Spawn(laser.gameObject);

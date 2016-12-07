@@ -9,6 +9,9 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class PlasmaCannon : Gun{
+
+    public static float damage = 55.0f;
+
     private GameObject plasmaBallPrefab;
 	private Audio2D audio = Audio2D.singleton;
 
@@ -29,9 +32,13 @@ public class PlasmaCannon : Gun{
     public void CmdShoot(Vector2 direction, Vector2 position){
         GameObject plasmaBall;
         plasmaBall = (GameObject)Instantiate(plasmaBallPrefab, position, Quaternion.identity);
-        plasmaBall.GetComponent<PlasmaBall>().bulletOwner = GetComponent<Player>();
-        plasmaBall.GetComponent<Rigidbody2D>().velocity = bulletSpeed * direction;
+        PlasmaBall pb = plasmaBall.GetComponent<PlasmaBall>();
+        Player p = GetComponent<Player>();
 
+        pb.bulletOwnerSlot = p.playerSlot;
+        pb.bulletOwnerInstance = p.netId;
+
+        plasmaBall.GetComponent<Rigidbody2D>().velocity = bulletSpeed * direction;
         NetworkServer.Spawn(plasmaBall);
     }
 

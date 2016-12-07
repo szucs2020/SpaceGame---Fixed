@@ -8,7 +8,9 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class Shotgun : Gun {
-	
+
+    public static float damage = 3.0f;
+
     private GameObject laserDot;
 	private Audio2D audio = Audio2D.singleton;
 
@@ -47,7 +49,11 @@ public class Shotgun : Gun {
             } else {
                 lasers[i].GetComponent<Rigidbody2D>().velocity = bulletSpeed * (Quaternion.AngleAxis(i * -1.5f, Vector3.back) * direction);
             }
-            lasers[i].GetComponent<LaserDot>().bulletOwner = GetComponent<Player>();
+
+            Player p = GetComponent<Player>();
+            lasers[i].GetComponent<LaserDot>().bulletOwnerInstance = p.netId;
+            lasers[i].GetComponent<LaserDot>().bulletOwnerSlot = p.playerSlot;
+
             lasers[i].GetComponent<LaserDot>().gunType = GetComponent<Player>().gunNum;
             NetworkServer.Spawn(lasers[i].gameObject);
         }

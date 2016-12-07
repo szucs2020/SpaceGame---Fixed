@@ -13,6 +13,7 @@ public class GameController : NetworkBehaviour {
     private CustomNetworkLobby manager;
     private GameSettings settings;
     private int[] playerLives;
+    private int[] playerPoints;
 
     [SyncVar]
     private int numberOfPlayers;
@@ -43,6 +44,13 @@ public class GameController : NetworkBehaviour {
             } else if (settings.gameType == GameSettings.GameType.Time) {
                 GameObject.Find("HUD").transform.Find("Timer").GetComponent<Timer>().setTime(settings.time);
             }
+
+            //create and initialize score array
+            playerPoints = new int[numberOfPlayers];
+            for (int i = 0; i < playerPoints.Length; i++) {
+                playerPoints[i] = 0;
+            }
+
             SpawnAllAI();
         }
     }
@@ -69,10 +77,23 @@ public class GameController : NetworkBehaviour {
     IEnumerator DelayEnd() {
         yield return new WaitForSeconds(0.5f);
         manager.CloseConnection();
-        Destroy(settings.gameObject);
+
+        for (int i = 0; i < playerPoints.Length; i++) {
+            print("Player " + i + " points: " + playerPoints[i]);
+        }
+
+        print("WE NEED TO DESTROY THE SETTINGS OBJECT IN THE END GAME SCREEN");
     }
 
-    public void AttemptSpawnPlayer(NetworkConnection connectionToClient, short playerControllerID, int playerSlot, string playerName) {
+    public void AttemptSpawnPlayer(NetworkConnection connectionToClient, short playerControllerID, int playerSlot, string playerName, int killer) {
+
+        if (killer == playerSlot || killer == -1) {
+            playerPoints[playerSlot]--;
+        } else {
+            playerPoints[killer]++;
+        }
+
+        print("Points: " + playerPoints[playerSlot]);
 
         bool respawn = false;
         bool end = false;
@@ -126,14 +147,21 @@ public class GameController : NetworkBehaviour {
         }
     }
 
-    public void AttemptSpawnAI(int slot, string name) {
+    public void AttemptSpawnAI(int playerSlot, string name, int killer) {
 
         bool end = false;
         bool respawn = false;
 
+        if (killer == playerSlot || killer == -1) {
+            playerPoints[playerSlot]--;
+        } else {
+            playerPoints[killer]++;
+        }
+        print("Points: " + playerPoints[playerSlot]);
+
         if (settings.gameType == GameSettings.GameType.Survival) {
 
-            playerLives[slot]--;
+            playerLives[playerSlot]--;
 
             //check if there is a winner
             end = isGameOver();
@@ -141,13 +169,13 @@ public class GameController : NetworkBehaviour {
                 EndGame();
             }
 
-            if (playerLives[slot] > 0) {
+            if (playerLives[playerSlot] > 0) {
                 respawn = true;
             }
         }
 
         if (end == false && (respawn == true || settings.gameType == GameSettings.GameType.Time)) {
-            SpawnAI(slot, name);
+            SpawnAI(playerSlot, name);
         }
     }
 

@@ -8,6 +8,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class PlasmaBall : MonoBehaviour {
 
@@ -15,7 +16,10 @@ public class PlasmaBall : MonoBehaviour {
     public int amount;
     public float radius;
     public Plasma plasma;
-    public Player bulletOwner;
+
+    public NetworkInstanceId bulletOwnerInstance;
+    public int bulletOwnerSlot;
+
     private bool hurtSelf = false;
     private bool varDestroy = false;
     private float destroyTime = 0.3f;
@@ -80,11 +84,11 @@ public class PlasmaBall : MonoBehaviour {
         }
         else if (LayerMask.LayerToName(col.gameObject.layer) == "Player")
         {
-            if (hurtSelf == true || (bulletOwner != null && col.gameObject.GetComponent<Player>().netId != bulletOwner.netId)) {
+            if (col.gameObject.GetComponent<Player>().netId != bulletOwnerInstance || hurtSelf == true) {
                 tAtDestroy = Time.time;
                 varDestroy = true;
                 Destroy(gameObject, destroyTime);
-                col.gameObject.GetComponent<Health>().Damage(50.00f);
+                col.gameObject.GetComponent<Health>().Damage(PlasmaCannon.damage, bulletOwnerSlot);
             }
         }
     }
