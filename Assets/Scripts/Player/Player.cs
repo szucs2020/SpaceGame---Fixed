@@ -341,17 +341,16 @@ public class Player : NetworkBehaviour {
             }
         }
 
-        if (!chat.chatInput.isFocused && buttonPressedReturn)
-        {
-            chat.chatInput.interactable = true;
-            chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.chatInput.Select();
-
-            if (chat.chatInput != null)
+        if (chat.chatInput != null) {
+            if (!chat.chatInput.isFocused && buttonPressedReturn)
             {
+                chat.chatInput.interactable = true;
+                chat.chatInput.Select();
+                chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+                chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+                chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+                chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+
                 string message = chat.chatInput.text;
 
                 if (!string.IsNullOrEmpty(message.Trim()) && buttonPressedReturn)
@@ -362,16 +361,19 @@ public class Player : NetworkBehaviour {
 
                 }
             }
-        }
-        else {
-            if (!chat.chatInput.isFocused) {
-                chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.chatInput.interactable = false;
+            else
+            {
+                if (!chat.chatInput.isFocused)
+                {
+                    chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.chatInput.interactable = false;
+                }
             }
         }
+        
     }
 
     public void Die() {
