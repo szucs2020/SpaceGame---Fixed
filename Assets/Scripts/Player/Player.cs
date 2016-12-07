@@ -144,6 +144,8 @@ public class Player : NetworkBehaviour {
 
         currentPlatform = null;
         currentPosition = 2;
+
+        chat.chatInput.interactable = false;
     }
 
     void Update() {
@@ -341,6 +343,7 @@ public class Player : NetworkBehaviour {
 
         if (!chat.chatInput.isFocused && buttonPressedReturn)
         {
+            chat.chatInput.interactable = true;
             chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
             chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
             chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
@@ -366,6 +369,7 @@ public class Player : NetworkBehaviour {
                 chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
                 chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
                 chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.chatInput.interactable = false;
             }
         }
     }
