@@ -38,7 +38,7 @@ public class Health : NetworkBehaviour {
         }
     }
 
-    public void Damage(float damage, int slot) {
+    public void Damage(float damage) {
 
         //damage should only be done on the server
         if (!isServer) {
@@ -50,7 +50,7 @@ public class Health : NetworkBehaviour {
 
         //player death
         if (this.health <= 0) {
-            Die(slot);
+            Die();
         }
 
         regenStarTime = Time.time;
@@ -58,11 +58,10 @@ public class Health : NetworkBehaviour {
     }
 
     public void Kill() {
-
         if (!isServer) {
             return;
         }
-        Die(-1);
+        Die();
     }
 
     //updates character health bar
@@ -74,7 +73,7 @@ public class Health : NetworkBehaviour {
     }
 
     //kill player and attempt respawn
-    private void Die(int killer) {
+    private void Die() {
 
         Player p = GetComponent<Player>();
         string pname = p.playerName;
@@ -83,9 +82,9 @@ public class Health : NetworkBehaviour {
         bool isAI = p.getIsAI();
 
         if (isAI) {
-            GameObject.Find("GameSettings").GetComponent<GameController>().AttemptSpawnAI(pslot, pname, killer);
+            GameObject.Find("GameSettings").GetComponent<GameController>().AttemptSpawnAI(pslot, pname);
         } else {
-            GameObject.Find("GameSettings").GetComponent<GameController>().AttemptSpawnPlayer(this.connectionToClient, this.playerControllerId, pslot, pname, killer);
+            GameObject.Find("GameSettings").GetComponent<GameController>().AttemptSpawnPlayer(this.connectionToClient, this.playerControllerId, pslot, pname);
         }
         p.Die();
     }

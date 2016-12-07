@@ -1,7 +1,6 @@
 ﻿/*
  * Network.cs
- * Authors: Christian. Animation related code was done with Nigel.
- *          Weapons realted code was done by Lorant
+ * Authors: Christian. Animation related code was done with Nigel. 
  * Description: This is the main player controller class. 
  */
 using UnityEngine;
@@ -98,11 +97,11 @@ public class Player : NetworkBehaviour {
     private bool isAI = false;
 
     public Audio2D audio2D;
-    public ChatSystem chat;
+    private Chat chat;
 
     void Awake() {
         audio2D = Audio2D.singleton;
-        chat = ChatSystem.singleton;
+        chat = Chat.singleton;
     }
 
     void Start() {
@@ -124,8 +123,8 @@ public class Player : NetworkBehaviour {
         shotgun = GetComponent<Shotgun>();
         plasmaCannon = GetComponent<PlasmaCannon>();
 
-        dropShotgun = Resources.Load("dropShotgun") as GameObject;
-        dropCannon = Resources.Load("dropCannon") as GameObject;
+        dropShotgun = Resources.Load("DropShotgun") as GameObject;
+        dropCannon = Resources.Load("DropCannon") as GameObject;
 
         jump = 0;
         gravity = (2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -330,7 +329,8 @@ public class Player : NetworkBehaviour {
             if (nearPickup)
             {
                 audio2D.PlaySound("Reload");
-                CmdChangeWeapon(pickup.id);
+                CmdChangeToPickup(pickup.id);
+                pickup.destroy();
                 nearPickup = false;
             }
             else if (!nearPickup)
@@ -339,17 +339,16 @@ public class Player : NetworkBehaviour {
             }
         }
 
-        if (chat != null && chat.chatInput != null)
+        if (!chat.chatInput.isFocused && buttonPressedReturn)
         {
-            if (!chat.chatInput.isFocused && buttonPressedReturn)
-            {
-                chat.chatInput.interactable = true;
-                chat.chatInput.Select();
-                chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-                chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-                chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-                chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.chatInput.Select();
 
+            if (chat.chatInput != null)
+            {
                 string message = chat.chatInput.text;
 
                 if (!string.IsNullOrEmpty(message.Trim()) && buttonPressedReturn)
@@ -360,19 +359,15 @@ public class Player : NetworkBehaviour {
 
                 }
             }
-            else
-            {
-                if (!chat.chatInput.isFocused)
-                {
-                    chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                    chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                    chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                    chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                    chat.chatInput.interactable = false;
-                }
+        }
+        else {
+            if (!chat.chatInput.isFocused) {
+                chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
             }
         }
-
     }
 
     public void Die() {
@@ -522,10 +517,6 @@ public class Player : NetworkBehaviour {
 
     [Command]
     public void CmdChangeWeapon(int weaponNum) {
-        if (pickup != null) {
-            pickup.destroy();
-        }
-
         gunNum = weaponNum;
 
         if (weaponNum == 1) {
@@ -542,28 +533,25 @@ public class Player : NetworkBehaviour {
     {
         GameObject droppedGun = null;
 
-        if (dropShotgun != null && dropCannon != null) {
-            if (weaponNum == 1)
-            {
-                return;
-            }
-            else if (weaponNum == 2)
-            {
-                droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
-            }
-            else if (weaponNum == 3)
-            {
-                droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
-            }
-
-            Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
-            //rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
-            rb.velocity = Vector2.up * 12;
-            rb.AddTorque(-500f);
-            NetworkServer.Spawn(droppedGun);
-            Destroy(droppedGun, 3f);
+        if (weaponNum == 1)
+        {
+            return;
         }
-        
+        else if (weaponNum == 2)
+        {
+            droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
+        }
+        else if (weaponNum == 3)
+        {
+            droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
+        }
+
+        Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
+        //rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
+        rb.velocity = Vector2.up * 12;
+        rb.AddTorque(-500f);
+        NetworkServer.Spawn(droppedGun);
+        Destroy(droppedGun, 3f);
     }
 
     void ChangeWeapon(int weaponNum) {

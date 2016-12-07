@@ -12,8 +12,7 @@ public class GameController : NetworkBehaviour {
 
     private CustomNetworkLobby manager;
     private GameSettings settings;
-    public int[] playerLives;
-    public int[] playerPoints;
+    private int[] playerLives;
 
     [SyncVar]
     private int numberOfPlayers;
@@ -44,24 +43,16 @@ public class GameController : NetworkBehaviour {
             } else if (settings.gameType == GameSettings.GameType.Time) {
                 GameObject.Find("HUD").transform.Find("Timer").GetComponent<Timer>().setTime(settings.time);
             }
-
-            //create and initialize score array
-            playerPoints = new int[numberOfPlayers];
-            for (int i = 0; i < playerPoints.Length; i++) {
-                playerPoints[i] = 0;
-            }
-
             SpawnAllAI();
         }
     }
 
     public void StartGame() {
-        CmdStartGame();
-        //if (isServer) {
-        //    numberOfPlayers = settings.NumberOfAIPlayers + NetworkManager.singleton.numPlayers;
-        //    time = settings.time;
-        //    started = 1;
-        //}
+        if (isServer) {
+            numberOfPlayers = settings.NumberOfAIPlayers + NetworkManager.singleton.numPlayers;
+            time = settings.time;
+            started = 1;
+        }
     }
 
     [Command]
@@ -77,18 +68,11 @@ public class GameController : NetworkBehaviour {
 
     IEnumerator DelayEnd() {
         yield return new WaitForSeconds(0.5f);
-        manager.ServerChangeScene("EndGame");
+        manager.CloseConnection();
+        Destroy(settings.gameObject);
     }
 
-    public void AttemptSpawnPlayer(NetworkConnection connectionToClient, short playerControllerID, int playerSlot, string playerName, int killer) {
-
-        Debug.LogError("attempt spawn player - slot:" + playerSlot + " killer: " + killer + " playerpoints length: " + playerPoints.Length);
-
-        if (killer == playerSlot || killer == -1) {
-            playerPoints[playerSlot]--;
-        } else {
-            playerPoints[killer]++;
-        }
+    public void AttemptSpawnPlayer(NetworkConnection connectionToClient, short playerControllerID, int playerSlot, string playerName) {
 
         bool respawn = false;
         bool end = false;
@@ -142,20 +126,14 @@ public class GameController : NetworkBehaviour {
         }
     }
 
-    public void AttemptSpawnAI(int playerSlot, string name, int killer) {
+    public void AttemptSpawnAI(int slot, string name) {
 
         bool end = false;
         bool respawn = false;
 
-        if (killer == playerSlot || killer == -1) {
-            playerPoints[playerSlot]--;
-        } else {
-            playerPoints[killer]++;
-        }
-
         if (settings.gameType == GameSettings.GameType.Survival) {
 
-            playerLives[playerSlot]--;
+            playerLives[slot]--;
 
             //check if there is a winner
             end = isGameOver();
@@ -163,13 +141,13 @@ public class GameController : NetworkBehaviour {
                 EndGame();
             }
 
-            if (playerLives[playerSlot] > 0) {
+            if (playerLives[slot] > 0) {
                 respawn = true;
             }
         }
 
         if (end == false && (respawn == true || settings.gameType == GameSettings.GameType.Time)) {
-            SpawnAI(playerSlot, name);
+            SpawnAI(slot, name);
         }
     }
 

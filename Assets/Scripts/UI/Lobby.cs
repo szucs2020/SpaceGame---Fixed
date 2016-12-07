@@ -17,11 +17,7 @@ public class Lobby : NetworkBehaviour {
     public Sprite green;
 
     //public LobbyPlayer player;
-    public LobbyPlayer[] players;
-
-    void Awake() {
-        players = new LobbyPlayer[4];
-    }
+    public LobbyPlayer[] players = new LobbyPlayer[4];
 
     public void ChangeTeam(int p) {
         players[p].CmdChangeTeam();
@@ -119,7 +115,7 @@ public class Lobby : NetworkBehaviour {
         Scrollbar lives = panel.transform.Find("Lives Scrollbar").gameObject.GetComponent<Scrollbar>();
         Scrollbar time = panel.transform.Find("Time Scrollbar").gameObject.GetComponent<Scrollbar>();
         Text typeText = panel.transform.Find("Game Type Value").gameObject.GetComponent<Text>();
-        GameSettings settings = GameSettings.singleton;
+        GameSettings settings = FindObjectOfType<GameSettings>();
 
         //Retrieve the value and set the game type accordingly, enable disable fields as necessary.
         if (type.value == 0) {
@@ -144,7 +140,7 @@ public class Lobby : NetworkBehaviour {
         Scrollbar type = panel.transform.Find("Game Type Scrollbar").gameObject.GetComponent<Scrollbar>();
         Scrollbar lives = panel.transform.Find("Lives Scrollbar").gameObject.GetComponent<Scrollbar>();
         Text liveText = panel.transform.Find("Lives Value").gameObject.GetComponent<Text>();
-        GameSettings settings = GameSettings.singleton;
+        GameSettings settings = FindObjectOfType<GameSettings>();
 
         int value = Mathf.RoundToInt(lives.value * 10);
 
@@ -175,7 +171,7 @@ public class Lobby : NetworkBehaviour {
         Scrollbar type = panel.transform.Find("Game Type Scrollbar").gameObject.GetComponent<Scrollbar>();
         Scrollbar time = panel.transform.Find("Time Scrollbar").gameObject.GetComponent<Scrollbar>();
         Text timeText = panel.transform.Find("Time Value").gameObject.GetComponent<Text>();
-        GameSettings settings = GameSettings.singleton;
+        GameSettings settings = FindObjectOfType<GameSettings>();
 
         int value = Mathf.RoundToInt(time.value * 10);
 
@@ -206,7 +202,7 @@ public class Lobby : NetworkBehaviour {
         GameObject panel = transform.Find("Game Options").gameObject;
         Scrollbar AI = panel.transform.Find("AI Players Scrollbar").gameObject.GetComponent<Scrollbar>();
         Text AIText = panel.transform.Find("AI Players Value").gameObject.GetComponent<Text>();
-        GameSettings settings = GameSettings.singleton;
+        GameSettings settings = FindObjectOfType<GameSettings>();
 
         int value = Mathf.RoundToInt(AI.value * 10);
 

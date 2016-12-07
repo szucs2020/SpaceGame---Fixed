@@ -83,7 +83,7 @@ MonoBehaviour:
     loop: 1
   - name: Portal
     clip: {fileID: 8300000, guid: 2290f11b366889a4d8c48edb89a70058, type: 3}
-    volume: 0.6
+    volume: 0.5
     pitch: 1
     loop: 0
   - name: Reload

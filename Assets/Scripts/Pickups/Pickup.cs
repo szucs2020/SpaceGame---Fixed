@@ -1,9 +1,4 @@
-﻿/*
- * Pickup.cs
- * Authors: Lorant
- * Description: This script controls the behaviour of pickups
- */
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Pickup : MonoBehaviour {

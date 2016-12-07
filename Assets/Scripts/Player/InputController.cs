@@ -34,19 +34,13 @@ public class InputController : NetworkBehaviour {
 			return;
 		}
 
-        if (keysEnabled)
-        {
+        if (keysEnabled) {
             player.setMovementAxis(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
             player.setbuttonPressedJump(Input.GetButtonDown("Jump"));
             player.setbuttonHeldJump(Input.GetButton("Jump"));
             player.setbuttonReleasedJump(Input.GetButtonUp("Jump"));
         }
-
-        //player.setMovementAxis(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")));
-        //player.setbuttonPressedJump(Input.GetButtonDown("Jump"));
-        //player.setbuttonHeldJump(Input.GetButton("Jump"));
-        //player.setbuttonReleasedJump(Input.GetButtonUp("Jump"));
-
+        
         //fix button pressed/held for the xbox controller
         if (usingGamepad){
 
@@ -89,10 +83,7 @@ public class InputController : NetworkBehaviour {
                 player.setbuttonReleasedShoot(true);
 				released = true;
 			}
-
-            player.setbuttonPressedAction(Input.GetButtonDown("Action"));
-
-        } else {
+		} else {
 
             bool returnPressed = Input.GetKeyDown("return");
             player.setbuttonPressedReturn(returnPressed);
@@ -108,8 +99,7 @@ public class InputController : NetworkBehaviour {
                     keysEnabled = true;
                 }
             }
-            if (keysEnabled)
-            {
+            if (keysEnabled) {
                 player.setbuttonHeldAimLeft(Input.GetButton("AimLeft"));
                 player.setbuttonHeldAimRight(Input.GetButton("AimRight"));
                 player.setbuttonHeldAimUp(Input.GetButton("AimUp"));
@@ -121,17 +111,7 @@ public class InputController : NetworkBehaviour {
                 player.setbuttonPressedAction(Input.GetButtonDown("Action"));
             }
 
-            //player.setbuttonHeldAimLeft(Input.GetButton("AimLeft"));
-            //player.setbuttonHeldAimRight(Input.GetButton("AimRight"));
-            //player.setbuttonHeldAimUp(Input.GetButton("AimUp"));
-            //player.setbuttonHeldAimDown(Input.GetButton("AimDown"));
-
-            //player.setbuttonPressedShoot(Input.GetButtonDown("ShootButton"));
-            //player.setbuttonHeldShoot(Input.GetButton("ShootButton"));
-            //player.setbuttonReleasedShoot(Input.GetButtonUp("ShootButton"));
-            //player.setbuttonPressedAction(Input.GetButtonDown("Action"));
-
-
+            
         }
     }
 }

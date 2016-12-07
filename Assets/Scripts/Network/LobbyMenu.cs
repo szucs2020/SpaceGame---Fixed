@@ -16,26 +16,12 @@ public class LobbyMenu : MonoBehaviour {
     public GameObject lobby;
     public GameObject load;
 
-    public GameSettings settings;
-
-    void Awake() {
-        Object gs = Instantiate(Resources.Load("GameSettings"), new Vector3(0, 0, 0), Quaternion.identity);
-        gs.name = "GameSettings";
-        GameObject gObjSet = (GameObject)gs;
-        settings = gObjSet.GetComponent<GameSettings>();
-    }
-
     void Start() {
 
         Object g = Instantiate(Resources.Load("NetworkManager"), new Vector3(0, 0, 0), Quaternion.identity);
         g.name = "NetworkManager";
         lobbyManager = ((GameObject)g).GetComponent<CustomNetworkLobby>();
-
-        Audio2D.singleton.StopSound("GameMusic");
-        //Audio2D.singleton.PlaySound("MenuMusic");
-
-        InputField name = GameObject.Find("Menu").gameObject.transform.Find("PlayerName").GetComponent<InputField>();
-        NameChanged(name.text);
+        Audio2D.singleton.PlaySound("MenuMusic");
 
         StartCoroutine("InitSelect");
     }
@@ -89,7 +75,7 @@ public class LobbyMenu : MonoBehaviour {
         }
     }
 
-    public void NameChanged(string s) {
-        settings.setLocalPlayerName(s);
+    public void onClickExit() {
+        Application.Quit();
     }
 }

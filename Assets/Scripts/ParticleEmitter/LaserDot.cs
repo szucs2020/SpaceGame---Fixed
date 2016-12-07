@@ -6,13 +6,10 @@
  */
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
 public class LaserDot : Particle {
 
-    public NetworkInstanceId bulletOwnerInstance;
-    public int bulletOwnerSlot;
-
+    public Player bulletOwner;
     public int gunType;
     private bool hurtSelf;
 
@@ -51,18 +48,16 @@ public class LaserDot : Particle {
             Destroy(gameObject);
             Instantiate(Resources.Load("Spark"), transform.position, Quaternion.identity);
         } else if (LayerMask.LayerToName(col.gameObject.layer) == "Player") {
-
-            if (col.gameObject.GetComponent<Player>().netId != bulletOwnerInstance) {
+            if (hurtSelf == true || (bulletOwner != null && col.gameObject.GetComponent<Player>().netId != bulletOwner.netId)) {
                 
                 if (gunType == 1) {
-                    col.gameObject.GetComponent<Health>().Damage(Pistol.damage, bulletOwnerSlot);
+                    col.gameObject.GetComponent<Health>().Damage(5.0f);
                 } else if (gunType == 2) {
-                    col.gameObject.GetComponent<Health>().Damage(Shotgun.damage, bulletOwnerSlot);
+                    col.gameObject.GetComponent<Health>().Damage(3.0f);
                 }
                 
                 Instantiate(Resources.Load("Spark"), transform.position, Quaternion.identity);
                 Destroy(gameObject);
-
             }
         } else if (col.gameObject.tag == "Portal") {
             hurtSelf = true;

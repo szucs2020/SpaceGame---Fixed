@@ -31,40 +31,36 @@ public class GameSettings : NetworkBehaviour {
 
     [SyncVar]
     public int NumberOfAIPlayers;
-    private string localPlayerName;
+    private string localPlayerName = "Player";
+    public bool playMusic = true;
 
     void Awake() {
-        if (singleton != null && singleton != this) {
-            Destroy(this.gameObject);
-            return;
-        } else {
-            singleton = this;
-        }
-        // prevent the scene from destroying this object
-        DontDestroyOnLoad(transform.gameObject);
+        singleton = this;
     }
 
     void Start() {
 
+        // prevent the scene from destroying this object
+        DontDestroyOnLoad(transform.gameObject);
+
         //default values
-        gameType = GameType.Survival;
-        NumberOfAIPlayers = 0;
-        time = 120;
-        numLives = 3;
+        if (isServer) {
+            gameType = GameType.Survival;
+            NumberOfAIPlayers = 0;
+            time = 120;
+            numLives = 3;
+        }
     }
 
     void OnLevelWasLoaded(int level) {
 
         //gameplay scene
         if (level == SceneManager.GetSceneByName("Main").buildIndex) {
-
-            Audio2D.singleton.StopSound("MenuMusic");
-
-            CustomNetworkLobby manager = GameObject.Find("NetworkManager").GetComponent<CustomNetworkLobby>();
-            if (manager.getIsHost()) {
-                GetComponent<GameController>().StartGame();
+            GetComponent<GameController>().StartGame();
+            if (playMusic) {
+                Audio2D.singleton.StopSound("MenuMusic");
+                Audio2D.singleton.PlaySound("GameMusic");
             }
-            //Audio2D.singleton.PlaySound("GameMusic");
         }
     }
 
@@ -73,5 +69,14 @@ public class GameSettings : NetworkBehaviour {
     }
     public string getLocalPlayerName() {
         return this.localPlayerName;
+    }
+
+    public void setPlayMusic(bool p) {
+        playMusic = p;
+        if (p) {
+            Audio2D.singleton.PlaySound("MenuMusic");
+        } else {
+            Audio2D.singleton.StopSound("MenuMusic");
+        }
     }
 }

@@ -70,7 +70,7 @@ public class LobbyPlayer : NetworkLobbyPlayer {
         lob = GameObject.Find("GameLobby").GetComponent<Lobby>();
         CallUpdateTeam(this.playerTeam);
         if (isLocalPlayer) {
-            settings = GameSettings.singleton;
+            settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
             lob.setPlayer(this);
             CmdChangeName(settings.getLocalPlayerName());
         } else {

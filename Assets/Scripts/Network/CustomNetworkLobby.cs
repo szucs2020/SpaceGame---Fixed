@@ -59,6 +59,7 @@ public class CustomNetworkLobby : NetworkLobbyManager {
 
     public override void OnStopClient() {
         Destroy(this.gameObject);
+        SceneManager.LoadScene("EndGame");
     }
 
     public void JoinGame(String ipAddress) {
