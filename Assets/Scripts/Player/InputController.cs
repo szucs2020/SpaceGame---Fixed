@@ -83,7 +83,10 @@ public class InputController : NetworkBehaviour {
                 player.setbuttonReleasedShoot(true);
 				released = true;
 			}
-		} else {
+
+            player.setbuttonPressedAction(Input.GetButtonDown("Action"));
+
+        } else {
 
             bool returnPressed = Input.GetKeyDown("return");
             player.setbuttonPressedReturn(returnPressed);

@@ -16,6 +16,16 @@ public class LobbyMenu : MonoBehaviour {
     public GameObject lobby;
     public GameObject load;
 
+    private GameSettings settings;
+
+    void Awake() {
+        if (GameObject.Find("GameSettings") == null) {
+            Object gs = Instantiate(Resources.Load("GameSettings"), new Vector3(0, 0, 0), Quaternion.identity);
+            gs.name = "GameSettings";
+        }
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+    }
+
     void Start() {
 
         Object g = Instantiate(Resources.Load("NetworkManager"), new Vector3(0, 0, 0), Quaternion.identity);
@@ -24,6 +34,9 @@ public class LobbyMenu : MonoBehaviour {
 
         Audio2D.singleton.StopSound("GameMusic");
         //Audio2D.singleton.PlaySound("MenuMusic");
+
+        InputField name = GameObject.Find("Menu").gameObject.transform.Find("PlayerName").GetComponent<InputField>();
+        NameChanged(name.text);
 
         StartCoroutine("InitSelect");
     }
@@ -75,5 +88,9 @@ public class LobbyMenu : MonoBehaviour {
             this.gameObject.SetActive(false);
             load.SetActive(true);
         }
+    }
+
+    public void NameChanged(string s) {
+        settings.setLocalPlayerName(s);
     }
 }

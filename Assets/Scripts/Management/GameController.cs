@@ -12,8 +12,8 @@ public class GameController : NetworkBehaviour {
 
     private CustomNetworkLobby manager;
     private GameSettings settings;
-    private int[] playerLives;
-    private int[] playerPoints;
+    public int[] playerLives;
+    public int[] playerPoints;
 
     [SyncVar]
     private int numberOfPlayers;
@@ -76,13 +76,7 @@ public class GameController : NetworkBehaviour {
 
     IEnumerator DelayEnd() {
         yield return new WaitForSeconds(0.5f);
-        manager.CloseConnection();
-
-        for (int i = 0; i < playerPoints.Length; i++) {
-            print("Player " + i + " points: " + playerPoints[i]);
-        }
-
-        print("WE NEED TO DESTROY THE SETTINGS OBJECT IN THE END GAME SCREEN");
+        manager.ServerChangeScene("EndGame");
     }
 
     public void AttemptSpawnPlayer(NetworkConnection connectionToClient, short playerControllerID, int playerSlot, string playerName, int killer) {
@@ -92,8 +86,6 @@ public class GameController : NetworkBehaviour {
         } else {
             playerPoints[killer]++;
         }
-
-        print("Points: " + playerPoints[playerSlot]);
 
         bool respawn = false;
         bool end = false;
@@ -157,7 +149,6 @@ public class GameController : NetworkBehaviour {
         } else {
             playerPoints[killer]++;
         }
-        print("Points: " + playerPoints[playerSlot]);
 
         if (settings.gameType == GameSettings.GameType.Survival) {
 

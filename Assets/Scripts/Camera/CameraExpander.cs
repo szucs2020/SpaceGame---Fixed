@@ -16,11 +16,8 @@ public class CameraExpander : MonoBehaviour {
 
     private GameObject[] players;
     private Camera mainCamera;
-    private GameSettings settings;
 
     void Start() {
-
-        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 
         //get current ratio and get the amount needed to scale by to reach the target aspect ratio
         float gameAspect = 16.0f / 9.0f;

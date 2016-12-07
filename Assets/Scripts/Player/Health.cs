@@ -58,6 +58,10 @@ public class Health : NetworkBehaviour {
     }
 
     public void Kill() {
+
+        if (!isServer) {
+            return;
+        }
         Die(-1);
     }
 

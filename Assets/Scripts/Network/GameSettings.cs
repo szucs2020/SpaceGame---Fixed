@@ -37,18 +37,17 @@ public class GameSettings : NetworkBehaviour {
         DontDestroyOnLoad(transform.gameObject);
 
         //default values
-        if (isServer) {
-            gameType = GameType.Survival;
-            NumberOfAIPlayers = 0;
-            time = 120;
-            numLives = 3;
-        }
+        gameType = GameType.Survival;
+        NumberOfAIPlayers = 0;
+        time = 120;
+        numLives = 3;
     }
 
     void OnLevelWasLoaded(int level) {
 
         //gameplay scene
         if (level == SceneManager.GetSceneByName("Main").buildIndex) {
+
             Audio2D.singleton.StopSound("MenuMusic");
             GetComponent<GameController>().StartGame();
             //Audio2D.singleton.PlaySound("GameMusic");
