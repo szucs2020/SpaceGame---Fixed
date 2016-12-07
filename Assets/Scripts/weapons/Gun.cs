@@ -63,6 +63,7 @@ public class Gun : NetworkBehaviour {
 
     public void reload() {
         if (shots != 0) {
+            player.audio2D.PlaySound("Reload");
             reloading = true;
             endReloadTime = Time.time + reloadTime;
             shots = 0;

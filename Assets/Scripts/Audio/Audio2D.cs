@@ -17,12 +17,14 @@ public class Sound {
     public float volume = 0.7f;
     [Range(0.5f, 1.5f)]
     public float pitch = 1.0f;
+    public bool loop = false;
 
     private AudioSource source;
 
     public void SetSource(AudioSource src) {
         source = src;
         source.clip = clip;
+        source.loop = loop;
     }
 
     public void Play() {

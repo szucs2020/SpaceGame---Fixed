@@ -96,7 +96,7 @@ public class Player : NetworkBehaviour {
     public Transform currentPlatform;
     private bool isAI = false;
 
-    private Audio2D audio2D;
+    public Audio2D audio2D;
     private Chat chat;
 
     void Awake() {
@@ -328,6 +328,7 @@ public class Player : NetworkBehaviour {
 
             if (nearPickup)
             {
+                audio2D.PlaySound("Reload");
                 CmdChangeToPickup();
                 pickup.destroy();
                 nearPickup = false;
@@ -367,7 +368,6 @@ public class Player : NetworkBehaviour {
                 chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
             }
         }
-
     }
 
     public void Die() {
