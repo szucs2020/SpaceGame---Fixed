@@ -133,6 +133,8 @@ GameObject:
   - 223: {fileID: 22362240}
   - 114: {fileID: 11498200}
   - 114: {fileID: 11495346}
+  - 114: {fileID: 11489142}
+  - 114: {fileID: 11499516}
   m_Layer: 5
   m_Name: ChatArea
   m_TagString: Untagged
@@ -509,6 +511,38 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11489142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 161
+    i1: 109
+    i2: 231
+    i3: 104
+    i4: 40
+    i5: 127
+    i6: 58
+    i7: 244
+    i8: 169
+    i9: 243
+    i10: 138
+    i11: 54
+    i12: 252
+    i13: 15
+    i14: 114
+    i15: 96
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11495346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -610,6 +644,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &11499516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6332027eae14d5e4a91acfc8b01534c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chatText: {fileID: 0}
+  chatInput: {fileID: 0}
 --- !u!222 &22201368
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -37,6 +37,8 @@ public class Player : NetworkBehaviour {
     //  3  PlasmaCannon
 
     Pickup pickup;
+    [SyncVar]
+    private int pickupId;
     private bool nearPickup = false;
     private bool pickedUp = false;
     private GameObject dropShotgun;
@@ -93,6 +95,7 @@ public class Player : NetworkBehaviour {
     private bool isAI = false;
 
     private Audio2D audio2D;
+    private Chat chat;
 
     void Start() {
 
@@ -101,6 +104,7 @@ public class Player : NetworkBehaviour {
         StartCoroutine("nameFix");
         animator = GetComponent<AnimationManager>();
         audio2D = Audio2D.singleton;
+        chat = Chat.singleton;
 
         CameraExpander cam = GameObject.Find("Main Camera").GetComponent<CameraExpander>();
         cam.UpdatePlayers();
@@ -318,13 +322,26 @@ public class Player : NetworkBehaviour {
 
             if (nearPickup)
             {
-                CmdChangeWeapon(pickup.id);
+                CmdChangeToPickup();
                 pickup.destroy();
                 nearPickup = false;
             }
             else if (!nearPickup)
             {
                 CmdChangeWeapon(1);
+            }
+        }
+
+        if (chat.chatInput != null)
+        {
+            string message = chat.chatInput.text;
+
+
+            if (!string.IsNullOrEmpty(message.Trim()) && Input.GetKeyDown("return"))
+            {
+                message = playerName + ": " + message + "\n";
+                CmdPrintMessage(message);
+                chat.chatInput.text = "";
             }
         }
 
@@ -465,6 +482,12 @@ public class Player : NetworkBehaviour {
     }
 
     [Command]
+    private void CmdChangeToPickup() {
+        pickupId = pickup.id;
+        CmdChangeWeapon(pickupId);
+    }
+
+    [Command]
     public void CmdChangeWeapon(int weaponNum) {
         gunNum = weaponNum;
 
@@ -505,5 +528,17 @@ public class Player : NetworkBehaviour {
 
     void ChangeWeapon(int weaponNum) {
         gunNum = weaponNum;
+    }
+
+    [Command]
+    void CmdPrintMessage(string message)
+    {
+        RpcPrintMessage(message);
+    }
+
+    [ClientRpc]
+    void RpcPrintMessage(string message)
+    {
+        chat.PrintMessage(message);
     }
 }
