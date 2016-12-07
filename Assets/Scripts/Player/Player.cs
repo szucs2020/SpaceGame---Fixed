@@ -329,7 +329,7 @@ public class Player : NetworkBehaviour {
             if (nearPickup)
             {
                 audio2D.PlaySound("Reload");
-                CmdChangeToPickup();
+                CmdChangeToPickup(pickup.id);
                 pickup.destroy();
                 nearPickup = false;
             }
@@ -510,8 +510,8 @@ public class Player : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdChangeToPickup() {
-        pickupId = pickup.id;
+    private void CmdChangeToPickup(int id) {
+        pickupId = id;
         CmdChangeWeapon(pickupId);
     }
 
