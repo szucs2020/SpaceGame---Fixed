@@ -6,6 +6,6 @@ public class EndGame : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        SceneManager.LoadScene("Pregame Menu");
+        //SceneManager.LoadScene("Pregame Menu");
     }
 }

@@ -342,8 +342,8 @@ public class Player : NetworkBehaviour {
         if (!chat.chatInput.isFocused && buttonPressedReturn)
         {
             chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.transform.GetChild(0).GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
             chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
             chat.chatInput.Select();
 
@@ -363,8 +363,8 @@ public class Player : NetworkBehaviour {
         else {
             if (!chat.chatInput.isFocused) {
                 chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.transform.GetChild(0).GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
                 chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
             }
         }
