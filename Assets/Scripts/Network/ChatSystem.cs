@@ -9,12 +9,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Chat : NetworkBehaviour
+public class ChatSystem : NetworkBehaviour
 {
     public Text chatText;
     public InputField chatInput;
 
-    public static Chat singleton = null;
+    public static ChatSystem singleton = null;
 
     void Awake()
     {
