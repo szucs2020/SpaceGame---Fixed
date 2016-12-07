@@ -23,6 +23,8 @@ public class CustomNetworkLobby : NetworkLobbyManager {
     private float timeLeft;
     private bool isHost = false;
 
+    private bool stopClient;
+
     void Start() {
         menu = GameObject.Find("Menu");
         load = menu.GetComponent<LobbyMenu>().load;
@@ -53,6 +55,11 @@ public class CustomNetworkLobby : NetworkLobbyManager {
                 }
             }
         }
+    }
+
+    public override void OnStopClient() {
+        Destroy(this.gameObject);
+        SceneManager.LoadScene("EndGame");
     }
 
     public void JoinGame(String ipAddress) {

@@ -51,7 +51,7 @@ public class GameSettings : NetworkBehaviour {
         if (level == SceneManager.GetSceneByName("Main").buildIndex) {
             Audio2D.singleton.StopSound("MenuMusic");
             GetComponent<GameController>().StartGame();
-            Audio2D.singleton.PlaySound("GameMusic");
+            //Audio2D.singleton.PlaySound("GameMusic");
         }
     }
 

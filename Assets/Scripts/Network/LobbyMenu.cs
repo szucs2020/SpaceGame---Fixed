@@ -22,7 +22,8 @@ public class LobbyMenu : MonoBehaviour {
         g.name = "NetworkManager";
         lobbyManager = ((GameObject)g).GetComponent<CustomNetworkLobby>();
 
-        Audio2D.singleton.PlaySound("MenuMusic");
+        Audio2D.singleton.StopSound("GameMusic");
+        //Audio2D.singleton.PlaySound("MenuMusic");
 
         StartCoroutine("InitSelect");
     }

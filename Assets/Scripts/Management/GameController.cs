@@ -67,11 +67,9 @@ public class GameController : NetworkBehaviour {
     }
 
     IEnumerator DelayEnd() {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         manager.CloseConnection();
-        Destroy(manager.gameObject);
         Destroy(settings.gameObject);
-        SceneManager.LoadScene("EndGame");
     }
 
     public void AttemptSpawnPlayer(NetworkConnection connectionToClient, short playerControllerID, int playerSlot, string playerName) {
@@ -82,7 +80,6 @@ public class GameController : NetworkBehaviour {
         if (settings.gameType == GameSettings.GameType.Survival) {
 
             playerLives[playerSlot]--;
-            print("Player: " + playerSlot + " lives left: " + playerLives[playerSlot]);
 
             //check if there is a winner
             end = isGameOver();

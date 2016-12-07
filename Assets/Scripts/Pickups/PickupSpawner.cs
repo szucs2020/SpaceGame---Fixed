@@ -42,10 +42,6 @@ public class PickupSpawner : NetworkBehaviour {
 
     [Command]
     void CmdSpawnPickup(int rand, int i) {
-        //if (rand < 35)
-        //{
-        //    pickup = (GameObject)Instantiate(pistol, this.transform.GetChild(i).transform.position, Quaternion.identity);
-        //}
         if (rand < 70) {
             pickup = (GameObject)Instantiate(shotgun, this.transform.GetChild(i).transform.position, Quaternion.identity);
         } else if (rand <= 100) {
