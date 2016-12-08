@@ -98,11 +98,11 @@ public class Player : NetworkBehaviour {
     private bool isAI = false;
 
     public Audio2D audio2D;
-    //public ChatSystem chat;
+    public ChatSystem chat;
 
     void Awake() {
         audio2D = Audio2D.singleton;
-        //chat = ChatSystem.singleton;
+        chat = ChatSystem.singleton;
     }
 
     void Start() {
@@ -124,8 +124,8 @@ public class Player : NetworkBehaviour {
         shotgun = GetComponent<Shotgun>();
         plasmaCannon = GetComponent<PlasmaCannon>();
 
-        dropShotgun = Resources.Load("DropShotgun") as GameObject;
-        dropCannon = Resources.Load("DropCannon") as GameObject;
+        dropShotgun = Resources.Load("dropShotgun") as GameObject;
+        dropCannon = Resources.Load("dropCannon") as GameObject;
 
         jump = 0;
         gravity = (2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -339,39 +339,40 @@ public class Player : NetworkBehaviour {
             }
         }
 
-        //if (chat != null && chat.chatInput != null) {
-        //    if (!chat.chatInput.isFocused && buttonPressedReturn)
-        //    {
-        //        chat.chatInput.interactable = true;
-        //        chat.chatInput.Select();
-        //        chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-        //        chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-        //        chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-        //        chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+        if (chat != null && chat.chatInput != null)
+        {
+            if (!chat.chatInput.isFocused && buttonPressedReturn)
+            {
+                chat.chatInput.interactable = true;
+                chat.chatInput.Select();
+                chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+                chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+                chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+                chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
 
-        //        string message = chat.chatInput.text;
+                string message = chat.chatInput.text;
 
-        //        if (!string.IsNullOrEmpty(message.Trim()) && buttonPressedReturn)
-        //        {
-        //            message = playerName + ": " + message + "\n";
-        //            CmdPrintMessage(message);
-        //            chat.chatInput.text = "";
+                if (!string.IsNullOrEmpty(message.Trim()) && buttonPressedReturn)
+                {
+                    message = playerName + ": " + message + "\n";
+                    CmdPrintMessage(message);
+                    chat.chatInput.text = "";
 
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (!chat.chatInput.isFocused)
-        //        {
-        //            chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-        //            chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-        //            chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-        //            chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-        //            chat.chatInput.interactable = false;
-        //        }
-        //    }
-        //}
-        
+                }
+            }
+            else
+            {
+                if (!chat.chatInput.isFocused)
+                {
+                    chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+                    chat.chatInput.interactable = false;
+                }
+            }
+        }
+
     }
 
     public void Die() {
@@ -541,40 +542,43 @@ public class Player : NetworkBehaviour {
     {
         GameObject droppedGun = null;
 
-        if (weaponNum == 1)
-        {
-            return;
-        }
-        else if (weaponNum == 2)
-        {
-            droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
-        }
-        else if (weaponNum == 3)
-        {
-            droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
-        }
+        if (dropShotgun != null && dropCannon != null) {
+            if (weaponNum == 1)
+            {
+                return;
+            }
+            else if (weaponNum == 2)
+            {
+                droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
+            }
+            else if (weaponNum == 3)
+            {
+                droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
+            }
 
-        Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
-        //rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
-        rb.velocity = Vector2.up * 12;
-        rb.AddTorque(-500f);
-        NetworkServer.Spawn(droppedGun);
-        Destroy(droppedGun, 3f);
+            Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
+            //rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
+            rb.velocity = Vector2.up * 12;
+            rb.AddTorque(-500f);
+            NetworkServer.Spawn(droppedGun);
+            Destroy(droppedGun, 3f);
+        }
+        
     }
 
     void ChangeWeapon(int weaponNum) {
         gunNum = weaponNum;
     }
 
-    //[Command]
-    //void CmdPrintMessage(string message)
-    //{
-    //    RpcPrintMessage(message);
-    //}
+    [Command]
+    void CmdPrintMessage(string message)
+    {
+        RpcPrintMessage(message);
+    }
 
-    //[ClientRpc]
-    //void RpcPrintMessage(string message)
-    //{
-    //    chat.PrintMessage(message);
-    //}
+    [ClientRpc]
+    void RpcPrintMessage(string message)
+    {
+        chat.PrintMessage(message);
+    }
 }
