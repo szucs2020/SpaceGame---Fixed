@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/*
+ * PickupSpawner.cs
+ * Authors: Lorant
+ * Description: This script controls the spawning and destroying of pickups
+ */
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 

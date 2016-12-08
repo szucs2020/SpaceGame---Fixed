@@ -1,5 +1,5 @@
 ﻿/*
- * Chat.cs
+ * ChatSystem.cs
  * Authors: Lorant
  * Description: This script allows player messaging over the network
  */

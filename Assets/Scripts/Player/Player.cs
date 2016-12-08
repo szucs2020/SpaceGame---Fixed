@@ -1,6 +1,7 @@
 ﻿/*
  * Network.cs
- * Authors: Christian. Animation related code was done with Nigel. 
+ * Authors: Christian. Animation related code was done with Nigel.
+ *          Weapons realted code was done by Lorant
  * Description: This is the main player controller class. 
  */
 using UnityEngine;
@@ -329,8 +330,7 @@ public class Player : NetworkBehaviour {
             if (nearPickup)
             {
                 audio2D.PlaySound("Reload");
-                CmdChangeToPickup(pickup.id);
-                pickup.destroy();
+                CmdChangeWeapon(pickup.id);
                 nearPickup = false;
             }
             else if (!nearPickup)
@@ -521,6 +521,10 @@ public class Player : NetworkBehaviour {
 
     [Command]
     public void CmdChangeWeapon(int weaponNum) {
+        if (pickup != null) {
+            pickup.destroy();
+        }
+
         gunNum = weaponNum;
 
         if (weaponNum == 1) {
