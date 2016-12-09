@@ -97,11 +97,11 @@ public class Player : NetworkBehaviour {
     private bool isAI = false;
 
     public Audio2D audio2D;
-    private Chat chat;
+    //private Chat chat;
 
     void Awake() {
         audio2D = Audio2D.singleton;
-        chat = Chat.singleton;
+        //chat = Chat.singleton;
     }
 
     void Start() {
@@ -276,12 +276,14 @@ public class Player : NetworkBehaviour {
 
         //shooting
         if (buttonReleasedShoot) {
+
+            if (cannonFinished && gunNum == 3 && charging) {
+                CmdStopSound("Plasma");
+            }
+
             shootReleased = true;
             charged = false;
             charging = false;
-            if (cannonFinished) {
-                CmdStopSound("Plasma");
-            }
 
             StopCoroutine("chargeCannon");
         } else if (buttonHeldShoot && gunNum == 3 && cannonFinished && shootReleased && plasmaCannon.canShoot()) {
@@ -329,7 +331,7 @@ public class Player : NetworkBehaviour {
             if (nearPickup)
             {
                 audio2D.PlaySound("Reload");
-                CmdChangeToPickup(pickup.id);
+                CmdChangeWeapon(pickup.id);
                 pickup.destroy();
                 nearPickup = false;
             }
@@ -339,35 +341,35 @@ public class Player : NetworkBehaviour {
             }
         }
 
-        if (!chat.chatInput.isFocused && buttonPressedReturn)
-        {
-            chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            chat.chatInput.Select();
+        //if (!chat.chatInput.isFocused && buttonPressedReturn)
+        //{
+        //    chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+        //    chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+        //    chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+        //    chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+        //    chat.chatInput.Select();
 
-            if (chat.chatInput != null)
-            {
-                string message = chat.chatInput.text;
+        //    if (chat.chatInput != null)
+        //    {
+        //        string message = chat.chatInput.text;
 
-                if (!string.IsNullOrEmpty(message.Trim()) && buttonPressedReturn)
-                {
-                    message = playerName + ": " + message + "\n";
-                    CmdPrintMessage(message);
-                    chat.chatInput.text = "";
+        //        if (!string.IsNullOrEmpty(message.Trim()) && buttonPressedReturn)
+        //        {
+        //            message = playerName + ": " + message + "\n";
+        //            CmdPrintMessage(message);
+        //            chat.chatInput.text = "";
 
-                }
-            }
-        }
-        else {
-            if (!chat.chatInput.isFocused) {
-                chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-                chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
-            }
-        }
+        //        }
+        //    }
+        //}
+        //else {
+        //    if (!chat.chatInput.isFocused) {
+        //        chat.transform.GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+        //        chat.transform.GetChild(1).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+        //        chat.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+        //        chat.chatInput.GetComponent<CanvasRenderer>().SetAlpha(0.1f);
+        //    }
+        //}
     }
 
     public void Die() {
@@ -382,6 +384,7 @@ public class Player : NetworkBehaviour {
 
     IEnumerator WaitForCannonDecay() {
         yield return new WaitForSeconds(1f);
+        CmdStopSound("Plasma");
         cannonFinished = true;
     }
 
@@ -509,11 +512,11 @@ public class Player : NetworkBehaviour {
         audio2D.StopSound(name);
     }
 
-    [Command]
-    private void CmdChangeToPickup(int id) {
-        pickupId = id;
-        CmdChangeWeapon(pickupId);
-    }
+    //[Command]
+    //private void CmdChangeToPickup(int id) {
+    //    pickupId = id;
+    //    CmdChangeWeapon(pickupId);
+    //}
 
     [Command]
     public void CmdChangeWeapon(int weaponNum) {
@@ -529,44 +532,29 @@ public class Player : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdDropWeapon(int weaponNum)
-    {
-        GameObject droppedGun = null;
+    private void CmdDropWeapon(int weaponNum){
 
-        if (weaponNum == 1)
-        {
-            return;
-        }
-        else if (weaponNum == 2)
-        {
-            droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
-        }
-        else if (weaponNum == 3)
-        {
-            droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
-        }
+        if (dropShotgun != null && dropShotgun != null) {
+            GameObject droppedGun = null;
 
-        Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
-        //rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
-        rb.velocity = Vector2.up * 12;
-        rb.AddTorque(-500f);
-        NetworkServer.Spawn(droppedGun);
-        Destroy(droppedGun, 3f);
+            if (weaponNum == 1) {
+                return;
+            } else if (weaponNum == 2) {
+                droppedGun = (GameObject)Instantiate(dropShotgun, this.transform.position, Quaternion.identity);
+            } else if (weaponNum == 3) {
+                droppedGun = (GameObject)Instantiate(dropCannon, this.transform.position, Quaternion.identity);
+            }
+
+            Rigidbody2D rb = droppedGun.GetComponent<Rigidbody2D>();
+            //rb.AddForce(Vector2.up * 12, ForceMode2D.Impulse);
+            rb.velocity = Vector2.up * 12;
+            rb.AddTorque(-500f);
+            NetworkServer.Spawn(droppedGun);
+            Destroy(droppedGun, 3f);
+        }
     }
 
     void ChangeWeapon(int weaponNum) {
         gunNum = weaponNum;
-    }
-
-    [Command]
-    void CmdPrintMessage(string message)
-    {
-        RpcPrintMessage(message);
-    }
-
-    [ClientRpc]
-    void RpcPrintMessage(string message)
-    {
-        chat.PrintMessage(message);
     }
 }

@@ -13,12 +13,12 @@ public class PlasmaCannon : Gun{
 	private Audio2D audio = Audio2D.singleton;
 
     void Start(){
-        rpm = 450;
+        rpm = 150;
         bulletSpeed = 45;
 
-        clipSize = 2;
+        clipSize = 9999;
         shots = 0;
-        reloadTime = 3;
+        reloadTime = 2;
 
         init();
         plasmaBallPrefab = Resources.Load("PlasmaBall") as GameObject;

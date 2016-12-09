@@ -13,7 +13,7 @@ public class Shotgun : Gun {
 	private Audio2D audio = Audio2D.singleton;
 
     void Start(){
-        rpm = 250;
+        rpm = 180;
         bulletSpeed = 45;
 
         clipSize = 6;

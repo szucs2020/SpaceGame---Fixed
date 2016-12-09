@@ -84,7 +84,7 @@ public class PlasmaBall : MonoBehaviour {
                 tAtDestroy = Time.time;
                 varDestroy = true;
                 Destroy(gameObject, destroyTime);
-                col.gameObject.GetComponent<Health>().Damage(50.00f);
+                col.gameObject.GetComponent<Health>().Damage(60.00f);
             }
         }
     }

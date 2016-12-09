@@ -53,7 +53,7 @@ public class LaserDot : Particle {
                 if (gunType == 1) {
                     col.gameObject.GetComponent<Health>().Damage(5.0f);
                 } else if (gunType == 2) {
-                    col.gameObject.GetComponent<Health>().Damage(3.0f);
+                    col.gameObject.GetComponent<Health>().Damage(3.8f);
                 }
                 
                 Instantiate(Resources.Load("Spark"), transform.position, Quaternion.identity);
