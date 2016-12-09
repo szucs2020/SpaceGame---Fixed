@@ -168,54 +168,13 @@ public class AIController : MonoBehaviour {
 					Move (moveTo, false);
 				}
 			}
-
-			/*float variablePos = Random.Range(-5f, 5f);
-
-			if (transform.position.x - player.transform.position.x < 40f || jumpingToNextPlatform == true) {
-				if ((player.transform.position.x < transform.position.x && transform.position.x - player.transform.position.x < 50f) || jumpingToNextPlatform == true) {
-					if (jumpingToNextPlatform == false) {
-						Move (player.transform.position + new Vector3 (variablePos + 40f, -playerHeight + 3, 0), false); //Add a random x value so it doesn't always stay the same distance
-					}
-
-					if (savedPlatform.getRight () - transform.position.x < 15f) {
-						jumpingToNextPlatform = true;
-						Transform targetNode = findNearestPlatform (playerComponent.currentPlatform.GetComponent<Platform> (), true);
-						Move (targetNode.position, true);
-					}
-				} else if (player.transform.position.x > transform.position.x && player.transform.position.x - transform.position.x < 50f || jumpingToNextPlatform == true) {
-					if (jumpingToNextPlatform == false) {
-						Move (player.transform.position - new Vector3 (variablePos + 40f, -playerHeight + 3, 0), false); //Add a random x value so it doesn't always stay the same distance
-					}
-
-					if (transform.position.x - savedPlatform.getLeft () < 15f) {
-						jumpingToNextPlatform = true;
-						Transform targetNode = findNearestPlatform (playerComponent.currentPlatform.GetComponent<Platform> (), false);
-						Move (targetNode.position, true);
-					} 
-				}
-			} else {
-				Move (player.transform.position + new Vector3 (variablePos + 40f, -playerHeight + 3, 0), false); //Add a random x value so it doesn't always stay the same distance
-			}*/
-
 		} else if (state == States.Follow) {
-			//print ("Follow");
 			bool onNeighbourPlatform = false;
 
 			if (AI.currentPlatform == playerComponent.currentPlatform) {
 				state = States.SamePlatform;
 				inMotion = false;
 			}
-			/*if (AI.currentPlatform != null) {
-				Platform neighboursPlatform = AI.currentPlatform.GetComponent<Platform> ();
-				if (neighboursPlatform != null) {
-					foreach (Transform neighbourPlatform in neighboursPlatform.neighbours) {
-						if (neighbourPlatform == playerComponent.currentPlatform) {
-							onNeighbourPlatform = true;
-							break;
-						}
-					}
-				}
-			}*/
 			if (savedPlatform != null) {
 				foreach (Transform neighbourPlatform in savedPlatform.neighbours) {
 					if (neighbourPlatform == playerComponent.currentPlatform) {
@@ -330,101 +289,6 @@ public class AIController : MonoBehaviour {
 				AI.setMovementAxis (new Vector2 (0, 0));
 			}
 		}
-
-		/*if (AI.currentPlatform == playerComponent.currentPlatform) {
-			path.Clear ();
-			hasPath = false;
-			target = null;
-
-			AI.setbuttonPressedJump (false);
-			AI.setbuttonReleasedJump (false);
-
-            float variablePos = Random.Range(-5f, 5f);
-
-			if (transform.position.x - player.transform.position.x < 40f || jumpingToNextPlatform == true) {
-				if ((player.transform.position.x < transform.position.x && transform.position.x - player.transform.position.x < 50f) || jumpingToNextPlatform == true) {
-					if (jumpingToNextPlatform == false) {
-						Move (player.transform.position + new Vector3 (variablePos + 40f, -playerHeight + 3, 0), false); //Add a random x value so it doesn't always stay the same distance
-					}
-						
-					if (savedPlatform.getRight () - transform.position.x < 15f) {
-						jumpingToNextPlatform = true;
-						Transform targetNode = findNearestPlatform (playerComponent.currentPlatform.GetComponent<Platform> (), true);
-						Move (targetNode.position, true);
-					}
-				} else if (player.transform.position.x > transform.position.x && player.transform.position.x - transform.position.x < 50f || jumpingToNextPlatform == true) {
-					if (jumpingToNextPlatform == false) {
-						Move (player.transform.position - new Vector3 (variablePos + 40f, -playerHeight + 3, 0), false); //Add a random x value so it doesn't always stay the same distance
-					}
-
-					if (transform.position.x - savedPlatform.getLeft () < 15f) {
-						jumpingToNextPlatform = true;
-						Transform targetNode = findNearestPlatform (playerComponent.currentPlatform.GetComponent<Platform> (), false);
-						Move (targetNode.position, true);
-					} 
-				}
-			} else {
-				Move (player.transform.position + new Vector3 (variablePos + 40f, -playerHeight + 3, 0), false); //Add a random x value so it doesn't always stay the same distance
-			}
-		} else if (AI.currentPlatform != playerComponent.currentPlatform) {
-			bool onNeighbourPlatform = false;
-
-			foreach (Transform neighbourPlatform in AI.currentPlatform.GetComponent<Platform>().neighbours) {
-				if (neighbourPlatform == playerComponent.currentPlatform) {
-					onNeighbourPlatform = true;
-					break;
-				}
-			}
-
-			//On a neighbouring platform to the Player
-			if (onNeighbourPlatform == true) {
-				path.Clear ();
-				hasPath = false;
-				target = null;
-				AI.setbuttonPressedJump (false);
-				AI.setbuttonReleasedJump (false);
-
-				float variablePos = Random.Range(-5f, 5f);
-
-				if (player.transform.position.x < transform.position.x && transform.position.x - player.transform.position.x < 30f) { //If within a certain distance stop
-					AI.setMovementAxis (new Vector2 (0, 0));
-				} else if (player.transform.position.x > transform.position.x && player.transform.position.x - transform.position.x < 30f) { //If within a certain distance stop
-					AI.setMovementAxis (new Vector2 (0, 0));
-				} else if (player.transform.position.x < transform.position.x && transform.position.x - player.transform.position.x > 30f) { //If not within a certain distance continue
-					//nodes[1] represents the second(last) node on platform
-					if (transform.position.x - savedPlatform.getLeft () < 15f) {
-						Move (playerComponent.currentPlatform.GetComponent<Platform> ().nodes [1].transform.position, true);
-					} else {
-						Move (playerComponent.currentPlatform.GetComponent<Platform> ().nodes [1].transform.position, false);
-					}
-				} else if (player.transform.position.x > transform.position.x && player.transform.position.x - transform.position.x > 30f) { //If not within a certain distance continue
-					//nodes[0] represents the first node on platform
-					if (savedPlatform.getRight () - transform.position.x < 15f) {
-						Move(playerComponent.currentPlatform.GetComponent<Platform> ().nodes[0].transform.position, true);
-					} else {
-						Move(playerComponent.currentPlatform.GetComponent<Platform> ().nodes[0].transform.position, false);
-					}
-				}
-			} else { //target represents a node on the platform
-				if (!hasPath) {
-					path = pathFinder.FindShortestPath (playerComponent);
-					target = path [0];
-					path.RemoveAt (0);
-					hasPath = true;
-				}
-
-				if (target != null && target.transform.parent == AI.currentPlatform) {
-					AI.setbuttonPressedJump (false);
-					AI.setbuttonReleasedJump (false);
-					WalkOnPlatform ();
-				} else if (target != null && target.transform.parent != AI.currentPlatform) {
-					WalkOnPlatform();
-				} else {
-					//ReCalcPath ();
-					AI.setMovementAxis (new Vector2 (0, 0));
-				}
-			}
-		}*/
 	}
 
 	private Transform findNearestPlatform (Platform platform, bool right) {

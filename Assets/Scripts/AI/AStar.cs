@@ -94,8 +94,6 @@ public class AStar : MonoBehaviour {
 			}
 		}
 
-		//print ("Target: " + target.name);
-
 		return RunAlgorithm ();
 	}
 

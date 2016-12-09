@@ -1,7 +1,7 @@
 ﻿/*
  * Node.cs
  * Authors: Lajos Polya
- * Description: This script describes a node and all of its properties.  Nodes are the edges of a tree when creating a path
+ * Description: This script describes a node and all of its properties.  Nodes are the edges of a tree when creating a path.
  */
 using UnityEngine;
 using System.Collections;

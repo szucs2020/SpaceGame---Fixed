@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/*
+ * PlayerFinder.cs
+ * Authors: Lajos Polya
+ * Description: This script has a copy of the AIs target which it distributed to AIController, AIAimCOntroller, and AIWeaponsController.
+ */
+using UnityEngine;
 using System.Collections;
 
 public class PlayerFinder : MonoBehaviour {

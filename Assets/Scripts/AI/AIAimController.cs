@@ -1,7 +1,7 @@
 ﻿/*
  * AIAimController.cs
  * Authors: Lajos Polya
- * Description: This script tell the AI where to look.
+ * Description: This script tells the AI which direction to aim using vectors.
  */
 using UnityEngine;
 using System.Collections;
